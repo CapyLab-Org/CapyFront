@@ -10,6 +10,7 @@ CapyFront está diseñado bajo tres principios fundamentales:
 
 ## 📂 Estructura de carpetas
 
+```code
 core/ → núcleo del framework
 ├── actions.js → registro central de acciones
 ├── components.js → registro de componentes
@@ -26,6 +27,7 @@ models/ → lógica de datos
 tests/ → pruebas automáticas
 tools/ → scripts auxiliares
 docs/ → documentación técnica
+```
 
 ---
 

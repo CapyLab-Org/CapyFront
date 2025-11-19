@@ -24,6 +24,7 @@
 
 ## 📂 Estructura del proyecto
 
+```code
 core/          → lógica base (component-loader, router, actions, api)
 components/    → componentes generados
 pages/         → páginas generadas
@@ -31,6 +32,7 @@ models/        → request/response para endpoints
 tools/         → scripts auxiliares (capy-new)
 tests/         → tests.html + *.test.js
 docs/          → documentación avanzada
+```
 
 ---
 
@@ -92,33 +94,11 @@ const data = await apiRequest('/api/users', {
 
 Organizá tus modelos en:
 
+```code
 models/
 ├── request/   → funciones que llaman endpoints
 └── response/  → funciones que transforman datos crudos
-
----
-
-## 📚 Documentación
-
-CapyFront está pensado para ser minimalista en su uso básico, pero también escalable en escenarios complejos.  
-Para mantener este README claro, la documentación avanzada vive en la carpeta [`docs/`](./docs).
-
-- [⚙️ Arquitectura](./docs/architecture.md)  
-  Filosofía, estructura de carpetas y flujo de trabajo interno.
-
-- [🧠 Casos avanzados](./docs/advanced.md)  
-  Ejemplos de acciones complejas, consumo de APIs, props y funciones expuestas.
-
-- [📖 Ejemplos prácticos](./docs/examples.md)  
-  Recetario con snippets listos para usar (formularios, contadores, listas dinámicas).
-
-- [🌐 API](./docs/api.md)  
-  Guía para organizar requests/responses y consumir APIs desde componentes.
-
----
-
-> Para un onboarding rápido, seguí las instrucciones básicas de este README.  
-> Para profundizar en la arquitectura y casos complejos, explorá los documentos en `docs/`.
+```
 
 ---
 
@@ -152,6 +132,30 @@ Si **CapyFront** te resulta útil, podés apoyar el proyecto:
 **CapyFront** es una herramienta para quienes aman el control, la claridad y la velocidad.
 Construí interfaces limpias y sin ruido, trabaja siempre chill como capibara.
 
+> Desarrollado por Kevin como parte de CapyLab Studio.
+
 ---
 
-> Desarrollado por Kevin como parte de CapyLab Studio.
+## 📚 Documentación
+
+CapyFront está pensado para ser minimalista en su uso básico, pero también escalable en escenarios complejos.  
+Para mantener este README claro, la documentación avanzada vive en la carpeta [`docs/`](./docs).
+
+- [⚙️ Arquitectura](./docs/architecture.md)  
+  Filosofía, estructura de carpetas y flujo de trabajo interno.
+
+- [🧠 Casos avanzados](./docs/advanced.md)  
+  Ejemplos de acciones complejas, consumo de APIs, props y funciones expuestas.
+
+- [📖 Ejemplos prácticos](./docs/examples.md)  
+  Recetario con snippets listos para usar (formularios, contadores, listas dinámicas).
+
+- [🌐 API](./docs/api.md)  
+  Guía para organizar requests/responses y consumir APIs desde componentes.
+
+---
+
+> Para un onboarding rápido, seguí las instrucciones básicas de este README.  
+> Para profundizar en la arquitectura y casos complejos, explorá los documentos en `docs/`.
+
+---
