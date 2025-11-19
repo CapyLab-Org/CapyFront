@@ -1,0 +1,15 @@
+/* @license MIT
+   Copyright (c) 2025 CapyLab Studio */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  max-width: 400px;
+  margin: auto;
+}
+
+input, textarea {
+  padding: 0.5em;
+  font-size: 1em;
+}
