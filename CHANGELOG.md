@@ -43,7 +43,7 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
-## ![Mi ícono](/CapyFront/public/assets/emoji.png) Filosofía
+## ![Mi ícono](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) Filosofía
 
 - **Minimalismo**: sin dependencias externas
 - **Automatización**: generación, registro y testeo sin fricción
