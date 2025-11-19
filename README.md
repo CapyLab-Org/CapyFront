@@ -1,4 +1,4 @@
-# ![Mi ícono](/CapyFront/public/assets/emoji.png) CapyFront
+# ![Mi ícono](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) CapyFront
 
 **CapyFront** es un micro-framework modular en HTML, CSS y JS puro. Diseñado para construir interfaces web sin dependencias externas, con componentes reutilizables, acciones seguras, y una experiencia de desarrollo automatizada vía Bash y Batch.
 
@@ -30,6 +30,7 @@ pages/         → páginas generadas
 models/        → request/response para endpoints
 tools/         → scripts auxiliares (capy-new)
 tests/         → tests.html + *.test.js
+docs/          → documentación avanzada
 
 ---
 
@@ -49,7 +50,7 @@ Crear una página:
 
 En Windows:
 
-```bash
+```bat
 tools\capy-new.bat --component user
 ```
 
@@ -80,7 +81,7 @@ Cada componente nuevo se agrega automáticamente.
 
 Usá core/api.js para llamadas HTTP:
 
-```bash
+```js
 import { apiRequest } from '../../core/api.js';
 
 const data = await apiRequest('/api/users', {
@@ -94,6 +95,30 @@ Organizá tus modelos en:
 models/
 ├── request/   → funciones que llaman endpoints
 └── response/  → funciones que transforman datos crudos
+
+---
+
+## 📚 Documentación
+
+CapyFront está pensado para ser minimalista en su uso básico, pero también escalable en escenarios complejos.  
+Para mantener este README claro, la documentación avanzada vive en la carpeta [`docs/`](./docs).
+
+- [⚙️ Arquitectura](./docs/architecture.md)  
+  Filosofía, estructura de carpetas y flujo de trabajo interno.
+
+- [🧠 Casos avanzados](./docs/advanced.md)  
+  Ejemplos de acciones complejas, consumo de APIs, props y funciones expuestas.
+
+- [📖 Ejemplos prácticos](./docs/examples.md)  
+  Recetario con snippets listos para usar (formularios, contadores, listas dinámicas).
+
+- [🌐 API](./docs/api.md)  
+  Guía para organizar requests/responses y consumir APIs desde componentes.
+
+---
+
+> Para un onboarding rápido, seguí las instrucciones básicas de este README.  
+> Para profundizar en la arquitectura y casos complejos, explorá los documentos en `docs/`.
 
 ---
 
@@ -115,7 +140,7 @@ Si **CapyFront** te resulta útil, podés apoyar el proyecto:
 
 ---
 
-## ![Mi ícono](/CapyFront/public/assets/emoji.png) Filosofía
+## ![Mi ícono](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) Filosofía
 
 - Minimalismo: sin dependencias, sin build, sin bundlers
 - Automatización: scripts para generar, registrar y testear
