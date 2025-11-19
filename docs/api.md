@@ -6,9 +6,11 @@ CapyFront permite consumir APIs externas o internas de forma modular, manteniend
 
 ## 📂 Organización recomendada
 
+```code
 models/
 ├── request/ → funciones para enviar datos (POST, PUT, DELETE)
 └── response/ → funciones para procesar respuestas (GET, transformaciones)
+```
 
 ---
 
