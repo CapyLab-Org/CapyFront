@@ -1,12 +1,12 @@
 # ![Mi ícono](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) CapyFront
 
-**CapyFront** es un micro-framework modular en HTML, CSS y JS puro. Diseñado para construir interfaces web sin dependencias externas, con componentes reutilizables, acciones seguras, y una experiencia de desarrollo automatizada vía Bash y Batch.
+**CapyFront** es un micro-framework modular en HTML, CSS y JS puro. Diseñado para construir interfaces web sin dependencias externas, con componentes reutilizables, acciones seguras, y una experiencia de desarrollo automatizada.
 
 ---
 
 ## 🚀 Características principales
 
-- 🔧 Generador de componentes y páginas (`capy-new.sh` / `capy-new.bat`)
+- 🔧 Generador de componentes y páginas (`capy-new` / `capy-new.exe`)
   - Crea estructura mínima (`.html`, `.css`, `.js`)
   - Registra automáticamente en:
     - `components.js` (componentes)
@@ -29,7 +29,7 @@ core/          → lógica base (component-loader, router, actions, api)
 components/    → componentes generados
 pages/         → páginas generadas
 models/        → request/response para endpoints
-tools/         → scripts auxiliares (capy-new)
+tools/         → binarios auxiliares (capy-new)
 tests/         → tests.html + *.test.js
 docs/          → documentación avanzada
 ```
@@ -38,28 +38,28 @@ docs/          → documentación avanzada
 
 ## 🛠️ Uso del generador
 
-- dale permisos de ejecución al script (solo la primera vez)
+- dale permisos de ejecución al binario (solo la primera vez)
 
 ```bash
-chmod +x capy-new.sh
+chmod +x capy-new
 ```
 
 Crear un componente:
 
 ```bash
-./tools/capy-new.sh --component user
+./tools/capy-new --component user
 ```
 
 Crear una página:
 
 ```bash
-./tools/capy-new.sh --page home
+./tools/capy-new --page home
 ```
 
 En Windows:
 
 ```bat
-tools\capy-new.bat --component user
+tools\capy-new.exe --component user
 ```
 
 Esto genera:
@@ -173,6 +173,12 @@ http://localhost:8080/
 
 - El navegador se abrirá automáticamente.
 
+En Windows:
+
+```bat
+tools\capyfront-server.exe
+```
+
 > si no notas tus cambios reinicia el servidor o conectate en incognito
 
 ### ⚙️ Opciones disponibles
@@ -204,7 +210,7 @@ http://localhost:8081/
 También podés combinarlo con el flag de puerto:
 
 ```bash
-./capyfront-server -test --port=5000
+./capyfront-server -test -port=5000
 ```
 
 ---
