@@ -4,11 +4,11 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
-## [1.0.0] - 2025-11-18
+## [1.0.0] - 2025-11-21
 
 ### 🎉 Added
 
-- Generador de componentes y páginas (`capy-new.sh` / `capy-new.bat`)
+- Generador de componentes y páginas (`capy-new` / `capy-new.exe`)
   - Crea estructura mínima (`.html`, `.css`, `.js`)
   - Registra automáticamente en `components.js`, `router.js`, `actions.js`, `tests/tests.html`
 - Props declarativas (`{{prop}}`) en HTML
@@ -35,11 +35,11 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 - `tests/tests.html` carga todos los tests automáticamente
 - Validación de acciones existentes y fallos esperados (`runAction('inexistente') → undefined`)
 
-### 📁 Scripts
+### 📁 Binarios
 
-- `capy-new.sh` para Linux/macOS
-- `capy-new.bat` para Windows
-- Ambos scripts generan componentes/páginas con registro completo y test
+- `capy-new` para Linux/macOS
+- `capy-new.exe` para Windows
+- Ambos binarios generan componentes/páginas con registro completo y test
 
 ---
 

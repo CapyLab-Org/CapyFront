@@ -4,7 +4,7 @@ CapyFront está diseñado bajo tres principios fundamentales:
 
 - **Minimalismo** → sin dependencias externas, puro HTML, CSS y JS.
 - **Modularidad** → cada pieza (componente, página, acción) vive en su propio archivo.
-- **Automatización** → scripts (`capy-new.sh` / `capy-new.bat`) generan y registran todo automáticamente.
+- **Automatización** → scripts (`capy-new` / `capy-new.exe`) generan y registran todo automáticamente.
 
 ---
 
@@ -34,7 +34,7 @@ docs/ → documentación técnica
 ## 🔗 Flujo de trabajo
 
 1. **Generación**  
-   - Usá `capy-new.sh` o `capy-new.bat` para crear un componente o página.  
+   - Usá `capy-new` o `capy-new.exe` para crear un componente o página.  
    - Se generan automáticamente los archivos `.html`, `.css`, `.js` y `.test.js`.
 
 2. **Registro automático**  
