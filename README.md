@@ -13,6 +13,8 @@
     - `router.js` (páginas)
     - `actions.js` (acciones seguras)
     - `tests/tests.html` (para ejecución de tests)
+- 🚀 Servidor local sin dependencias (`capyfront-server`/`capyfront-server.exe`)
+  - Elige el puerto que quiras con el flag `-port=3000`
 - 🧩 Props declarativas: `{{prop}}` en HTML reemplazadas por atributos del componente
 - ⚡ Acciones seguras: `onClick="getUserId()"` validadas contra `actions.js`
 - 🧪 Tests automáticos: cada componente genera un `*.test.js` con validaciones
@@ -29,7 +31,7 @@ core/          → lógica base (component-loader, router, actions, api)
 components/    → componentes generados
 pages/         → páginas generadas
 models/        → request/response para endpoints
-tools/         → binarios auxiliares (capy-new)
+tools/         → binarios auxiliares (capy-new/capyfront-server)
 tests/         → tests.html + *.test.js
 docs/          → documentación avanzada
 ```
@@ -47,19 +49,19 @@ chmod +x capy-new
 Crear un componente:
 
 ```bash
-./tools/capy-new --component user
+./tools/linux/capy-new --component user
 ```
 
 Crear una página:
 
 ```bash
-./tools/capy-new --page home
+./tools/linux/capy-new --page home
 ```
 
 En Windows:
 
 ```bat
-tools\capy-new.exe --component user
+tools\windows\capy-new.exe --component user
 ```
 
 Esto genera:
@@ -162,7 +164,7 @@ chmod +x capyfront-server
 - Ejecutá el servidor
 
 ```bash
-./capyfront-server
+./tools/linux/capyfront-server
 ```
 
 - Esto levanta el sitio en:
@@ -176,7 +178,7 @@ http://localhost:8080/
 En Windows:
 
 ```bat
-tools\capyfront-server.exe
+tools\windows\capyfront-server.exe
 ```
 
 > si no notas tus cambios reinicia el servidor o conectate en incognito
@@ -236,7 +238,7 @@ Si **CapyFront** te resulta útil, podés apoyar el proyecto:
 ## ![Mi ícono](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) Filosofía
 
 - Minimalismo: sin dependencias, sin build, sin bundlers
-- Automatización: scripts para generar, registrar y testear
+- Automatización: binarios para generar, registrar y testear
 - Escalabilidad: componentes modulares y acciones seguras
 - Transparencia: tests visibles en navegador, sin magia
 
