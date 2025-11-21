@@ -1,6 +1,10 @@
 /* @license MIT
    Copyright (c) 2025 CapyLab Studio */
 
+h2 {
+  text-align: center;
+}
+
 form {
   display: flex;
   flex-direction: column;

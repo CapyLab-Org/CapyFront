@@ -38,6 +38,12 @@ docs/          → documentación avanzada
 
 ## 🛠️ Uso del generador
 
+- dale permisos de ejecución al script (solo la primera vez)
+
+```bash
+chmod +x capy-new.sh
+```
+
 Crear un componente:
 
 ```bash
@@ -66,19 +72,6 @@ Esto genera:
 
 ---
 
-## 🧪 Correr tests
-
-Abrí en tu navegador:
-
-```bash
-tests/tests.html
-```
-
-Los resultados se muestran en la consola.
-Cada componente nuevo se agrega automáticamente.
-
----
-
 ## 🌐 Consumo de endpoints
 
 Usá core/api.js para llamadas HTTP:
@@ -98,6 +91,120 @@ Organizá tus modelos en:
 models/
 ├── request/   → funciones que llaman endpoints
 └── response/  → funciones que transforman datos crudos
+```
+
+---
+
+## 📁 Rutas y recursos
+
+CapyFront funciona como una SPA (Single Page Application) basada en `public/index.html`, por lo que **todas las rutas deben resolverse como si estuvieras siempre parado en ese archivo**. Esto garantiza que los recursos (favicon, imágenes, scripts) se carguen correctamente sin importar la ruta actual.
+
+✅ Estructura recomendada
+
+```code
+CapyFront/
+├── public/
+│   ├── index.html
+│   └── assets/
+│       ├── favicon.ico
+│       └── Capylab minimal.png
+├── components/
+│   └── header-bar/
+│       └── header-bar.html
+```
+
+✅ Rutas absolutas desde `/public`
+
+Para mantener consistencia visual y evitar rutas rotas al navegar entre páginas, usá rutas absolutas que incluyan `/public/`:
+
+```html
+<!-- En index.html -->
+<link rel="icon" href="/public/assets/favicon.ico" />
+
+<!-- En componentes -->
+<img src="/public/assets/Capylab minimal.png" alt="CapyFront Logo" />
+```
+
+Esto asegura que los recursos se carguen correctamente incluso cuando navegás a rutas como:
+
+```code
+http://localhost:8080/#about
+```
+
+>🧠 Aunque `public/` no es una carpeta "pública" en términos de frameworks tradicionales, en este setup se sirve desde la raíz del proyecto, por lo que `/public/assets/..` es una ruta válida.
+
+❌ Qué evitar
+
+• **No uses rutas relativas** como `assets/favicon.ico` o `../assets/logo.png`, ya que pueden romperse al cambiar de ruta.
+• **No navegues directamente a archivos HTML físicos** como `/page/about/about.html`. Usá rutas hash (`#about`) para que el router maneje la navegación.
+
+---
+
+## 🚀 Servidor local sin dependencias
+
+CapyFront incluye un binario llamado **capyfront-server** para levantar el proyecto localmente sin necesidad de instalar ninguna dependencia externa.
+
+### 📦 ¿Qué hace?
+
+- Sirve todo el proyecto desde la raíz (`./`)
+- Redirige automáticamente `/` a `public/index.html`
+- Permite navegación SPA con rutas como `/#about`
+- Abre el navegador automáticamente al iniciar
+
+### 🧪 Cómo usarlo
+
+- Si estas en linux, dale permisos de ejecución al binario (solo la primera vez)
+
+```bash
+chmod +x capyfront-server
+```
+
+- Ejecutá el servidor
+
+```bash
+./capyfront-server
+```
+
+- Esto levanta el sitio en:
+
+```code
+http://localhost:8080/
+```
+
+- El navegador se abrirá automáticamente.
+
+> si no notas tus cambios reinicia el servidor o conectate en incognito
+
+### ⚙️ Opciones disponibles
+
+Podés cambiar el puerto con el flag :
+
+```bash
+./capyfront-server -port=3000
+```
+
+Esto abrirá el sitio en `http://localhost:3000/`
+
+### 🧪 Modo test
+
+Si querés levantar el entorno de pruebas (`tests/tests.html`), usá el flag `-test`:
+
+```bash
+./capyfront-server -test
+```
+
+Esto abrirá automáticamente:
+
+```code
+http://localhost:8081/
+```
+
+…pero servirá el archivo `tests/tests.html` en lugar de `public/index.html`.
+
+También podés combinarlo con el flag de puerto:
+
+```bash
+./capyfront-server -test --port=5000
 ```
 
 ---
