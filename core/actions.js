@@ -3,7 +3,10 @@
  * Copyright (c) 2025 CapyLab Studio
  */
 
+import { actionExample } from './actions/actionExample.js';
+
 export const actions = {
+  actionExample,
   getFooterBarId: () => 'footer-bar-id',
   getHeaderBarId: () => 'header-bar-id',
   getLoadingSpinnerId: () => 'loading-spinner-id',

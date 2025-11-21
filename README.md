@@ -14,7 +14,7 @@
     - `actions.js` (acciones seguras)
     - `tests/tests.html` (para ejecución de tests)
 - 🚀 Servidor local sin dependencias (`capyfront-server`/`capyfront-server.exe`)
-  - Elige el puerto que quiras con el flag `-port=3000`
+  - Elige el puerto que quieras con el flag `-port=3000`
 - 🧩 Props declarativas: `{{prop}}` en HTML reemplazadas por atributos del componente
 - ⚡ Acciones seguras: `onClick="getUserId()"` validadas contra `actions.js`
 - 🧪 Tests automáticos: cada componente genera un `*.test.js` con validaciones
@@ -49,19 +49,19 @@ chmod +x capy-new
 Crear un componente:
 
 ```bash
-./tools/linux/capy-new --component user
+tools/linux$ ./capy-new --component user
 ```
 
 Crear una página:
 
 ```bash
-./tools/linux/capy-new --page home
+tools/linux$ ./capy-new --page home
 ```
 
 En Windows:
 
-```bat
-tools\windows\capy-new.exe --component user
+```ps1
+tools\windows> ./capy-new.exe --component user
 ```
 
 Esto genera:
@@ -164,7 +164,7 @@ chmod +x capyfront-server
 - Ejecutá el servidor
 
 ```bash
-./tools/linux/capyfront-server
+./tools/linux$ ./capyfront-server
 ```
 
 - Esto levanta el sitio en:
@@ -177,8 +177,8 @@ http://localhost:8080/
 
 En Windows:
 
-```bat
-tools\windows\capyfront-server.exe
+```ps1
+tools\windows> ./capyfront-server.exe
 ```
 
 > si no notas tus cambios reinicia el servidor o conectate en incognito
