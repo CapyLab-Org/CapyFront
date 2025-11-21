@@ -4,7 +4,7 @@ CapyFront está diseñado bajo tres principios fundamentales:
 
 - **Minimalismo** → sin dependencias externas, puro HTML, CSS y JS.
 - **Modularidad** → cada pieza (componente, página, acción) vive en su propio archivo.
-- **Automatización** → scripts (`capy-new` / `capy-new.exe`) generan y registran todo automáticamente.
+- **Automatización** → binarios (`capy-new` / `capy-new.exe`) generan y registran todo automáticamente.
 
 ---
 
@@ -25,7 +25,7 @@ models/ → lógica de datos
 └── response/ → funciones para procesar respuestas
 
 tests/ → pruebas automáticas
-tools/ → scripts auxiliares
+tools/ → binarios auxiliares
 docs/ → documentación técnica
 ```
 
@@ -38,7 +38,7 @@ docs/ → documentación técnica
    - Se generan automáticamente los archivos `.html`, `.css`, `.js` y `.test.js`.
 
 2. **Registro automático**  
-   - Los scripts insertan el componente en `components.js` o la página en `router.js`.  
+   - Los binarios insertan el componente en `components.js` o la página en `router.js`.  
    - También crean una acción básica en `actions.js`.
 
 3. **Props (entrada)**  

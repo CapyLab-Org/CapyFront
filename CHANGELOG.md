@@ -11,6 +11,7 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 - Generador de componentes y páginas (`capy-new` / `capy-new.exe`)
   - Crea estructura mínima (`.html`, `.css`, `.js`)
   - Registra automáticamente en `components.js`, `router.js`, `actions.js`, `tests/tests.html`
+- Servidor local sin dependencias (`capyfront-server`/`capyfront-server.exe`)
 - Props declarativas (`{{prop}}`) en HTML
 - Acciones seguras (`onClick="getXyzId()"`) validadas contra `actions.js`
 - Registro automático de acciones con nombre camelCase (`getLoadingSpinnerId`)
@@ -37,9 +38,17 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ### 📁 Binarios
 
+#### Generadores
+
 - `capy-new` para Linux/macOS
 - `capy-new.exe` para Windows
 - Ambos binarios generan componentes/páginas con registro completo y test
+
+#### Servidores
+
+- `capyfront-server` para Linux/macOS
+- `capyfront-server.exe` para Windows
+- Ambos binarios levantan un servidor local sin dependecias ni instalaciones externas
 
 ---
 
