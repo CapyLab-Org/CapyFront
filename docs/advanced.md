@@ -28,7 +28,7 @@ export const actions = {
 ## 2. Consumir una API desde un componente
 
 ```js
-defineComponentFromFiles('user-card', 'user-card.html', 'user-card.css', {
+defineComponentFromFiles('user-card-component', 'user-card.html', 'user-card.css', {
   observed: ['id'],
   onMount: async (el, shadow) => {
     const data = await actions.getUserData();
@@ -64,7 +64,7 @@ Esto expone una función pública que otros scripts pueden invocar.
 ## 5. Variables internas en el .js del componente
 
 ```js
-defineComponentFromFiles('counter-widget', 'counter.html', 'counter.css', {
+defineComponentFromFiles('counter-widget-component', 'counter.html', 'counter.css', {
   observed: [],
   onMount: (el, shadow) => {
     let count = 0; // estado interno
