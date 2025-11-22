@@ -164,7 +164,7 @@ chmod +x capyfront-server
 - Ejecutá el servidor
 
 ```bash
-./tools/linux$ ./capyfront-server
+tools/linux$ ./capyfront-server
 ```
 
 - Esto levanta el sitio en:
