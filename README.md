@@ -137,8 +137,9 @@ http://localhost:8080/#about
 
 ❌ Qué evitar
 
-• **No uses rutas relativas** como `assets/favicon.ico` o `../assets/logo.png`, ya que pueden romperse al cambiar de ruta.
-• **No navegues directamente a archivos HTML físicos** como `/page/about/about.html`. Usá rutas hash (`#about`) para que el router maneje la navegación.
+- **No uses rutas relativas** como `assets/favicon.ico` o `../assets/logo.png`, ya que pueden romperse al cambiar de ruta.
+
+- **No navegues directamente a archivos HTML físicos** como `/page/about/about.html`. Usá rutas hash (`#about`) para que el router maneje la navegación.
 
 ---
 
