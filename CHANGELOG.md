@@ -4,6 +4,60 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
+## [1.1.0] - 2026-05-09
+
+### 🎉 Added — framework
+
+- **`core/store.js`** — estado reactivo global sin dependencias
+  - `setState(key, value)` / `getState(key)` / `subscribe(key, fn)`
+  - `subscribe` retorna función `unsubscribe()` para limpiar suscripciones
+  - `window.store` expuesto globalmente desde `main.js`
+
+- **`core/storage.js`** — helpers para persistencia local
+  - `save` / `load` / `remove` sobre `localStorage`
+  - `saveSession` / `loadSession` / `removeSession` sobre `sessionStorage`
+  - Manejo seguro de errores (private browsing, cuota llena)
+
+- **`core/api.js`** — extensiones al cliente HTTP
+  - `setAuthToken(token)` / `clearAuthToken()` — inyección automática de `Authorization: Bearer`
+  - Nuevo parámetro `responseType: 'json' | 'text' | 'blob'` en `apiRequest`
+
+- **Router — rutas con parámetros** (`core/router.js`)
+  - Soporte para rutas dinámicas: `'product/:id'`, `'user/:id/:tab'`
+  - Parámetros pasados como atributos al componente de página
+  - Soporte para formato extendido de ruta: `{ load: fn, title: 'Título' }`
+  - Cambio automático de `document.title` al navegar
+
+- **`component-loader.js`** — motor de componentes mejorado
+  - `el.render(data)` — re-renderiza el template fusionando nuevos datos
+  - Cambio de atributo observado dispara re-render automático
+  - `{{#each key}}...{{/each}}` — iteración sobre arrays en templates
+  - `onDisconnect(el, shadow)` — callback de limpieza al desmontar el componente
+  - `emit(el, eventName, detail)` — emite `CustomEvent` que burbujea a través del Shadow DOM
+
+### 🎉 Added — servidor de desarrollo (`capyfront-server`)
+
+- **Live reload** — detecta cambios en `.js`, `.html` y `.css` e inyecta un script SSE en `index.html` que recarga el browser automáticamente. Ignora `tools/` y `.git/`.
+- **Request logger** — loguea método, path, status coloreado (verde/amarillo/rojo) y tiempo de respuesta por cada request.
+- **API proxy** — flag `-proxy=/prefix:http://host:port` reenvía requests al backend sin necesidad de configurar CORS. Repetible para múltiples prefijos.
+- **Network IP** — muestra la IP de red local al arrancar para probar desde celulares u otros dispositivos.
+- **Port conflict detection** — avisa si el puerto está en uso con mensaje claro en lugar de fallar silenciosamente.
+
+### 🎉 Added — generador `capy-new`
+
+- Flags cortos: `-c` (alias de `-component`), `-p` (alias de `-page`), `-d` (alias de `-delete`)
+- Comando **delete** (`-d -c <nombre>` / `-d -p <nombre>`) — borra la carpeta del componente/página y elimina todas sus referencias en `components.js`, `router.js`, `actions.js` y `tests/tests.html`
+- Templates generados actualizados: incluyen `emit`, `props` en `onMount`, `onDisconnect`, y comentarios guía para `el.render` y `{{#each}}`
+
+### 🔧 Changed
+
+- `core/main.js` expone `window.store` con `setState`, `getState`, `subscribe`
+- `component-loader.js` refactoriza rendering en función interna `processTemplate`
+- `api.js` corrige condición `body !== null` (antes `if (body)` ignoraba `0` y `false`)
+- CSS generado por `capy-new` usa selector de clase (`.nombre-component`) en lugar de `div` genérico
+
+---
+
 ## [1.0.0] - 2025-11-21
 
 ### 🎉 Added

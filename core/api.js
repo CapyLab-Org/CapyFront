@@ -3,17 +3,34 @@
  * Copyright (c) 2025 CapyLab Studio
  */
 
-export async function apiRequest(endpoint, { method = 'GET', body = null, headers = {} } = {}) {
+let _authToken = null;
+
+export function setAuthToken(token) {
+  _authToken = token;
+}
+
+export function clearAuthToken() {
+  _authToken = null;
+}
+
+/**
+ * Wrapper sobre fetch para consumir APIs REST.
+ * @param {string} endpoint
+ * @param {{ method?, body?, headers?, responseType? }} options
+ * @returns {Promise<any>}
+ */
+export async function apiRequest(endpoint, { method = 'GET', body = null, headers = {}, responseType = 'json' } = {}) {
   try {
     const options = {
       method,
       headers: {
         'Content-Type': 'application/json',
+        ...(_authToken ? { Authorization: `Bearer ${_authToken}` } : {}),
         ...headers,
       },
     };
 
-    if (body) {
+    if (body !== null) {
       options.body = JSON.stringify(body);
     }
 
@@ -23,10 +40,11 @@ export async function apiRequest(endpoint, { method = 'GET', body = null, header
       throw new Error(`Error ${res.status}: ${res.statusText}`);
     }
 
-    const data = await res.json();
-    return data;
+    if (responseType === 'text') return res.text();
+    if (responseType === 'blob') return res.blob();
+    return res.json();
   } catch (err) {
-    console.error("❌ Error en apiRequest:", err);
+    console.error('❌ Error en apiRequest:', err);
     throw err;
   }
 }

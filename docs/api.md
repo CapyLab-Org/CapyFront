@@ -1,111 +1,105 @@
-# Guía de uso de APIs en CapyFront
+# API client y capa de modelos
 
-CapyFront permite consumir APIs externas o internas de forma modular, manteniendo la lógica separada en `models/request` y `models/response`.
+## `apiRequest` — cliente HTTP
 
----
+```js
+import { apiRequest, setAuthToken, clearAuthToken } from '../../core/api.js';
 
-## 📂 Organización recomendada
+// Auth — se inyecta como "Authorization: Bearer <token>" en todos los requests
+setAuthToken('mi-jwt-token');
+clearAuthToken();   // logout
 
-```code
-models/
-├── request/ → funciones para enviar datos (POST, PUT, DELETE)
-└── response/ → funciones para procesar respuestas (GET, transformaciones)
+// GET (retorna JSON por defecto)
+const user = await apiRequest('/api/users/1');
+
+// POST
+const created = await apiRequest('/api/users', {
+  method: 'POST',
+  body: { name: 'Capy', email: 'capy@lab.com' }
+});
+
+// responseType: 'json' (default) | 'text' | 'blob'
+const html  = await apiRequest('/api/template', { responseType: 'text' });
+const file  = await apiRequest('/api/files/1',  { responseType: 'blob' });
+
+// Headers custom (se fusionan con Content-Type y Authorization)
+const data = await apiRequest('/api/data', {
+  headers: { 'X-Custom': 'valor' }
+});
 ```
 
+`apiRequest` lanza un error si `res.ok === false`. Usar `try/catch` en los modelos.
+
 ---
 
-## 1. Request: enviar datos
+## Capa de modelos
+
+La lógica de API no va en los componentes — va en `models/` para que sea reutilizable y testeable.
+
+```
+models/
+  request/   → funciones que envían datos (POST, PUT, DELETE)
+  response/  → funciones que obtienen datos (GET, transformaciones)
+```
+
+```js
+// models/response/getUser.js
+import { apiRequest } from '../../core/api.js';
+
+export async function getUser(id) {
+  return apiRequest(`/api/users/${id}`);
+}
+```
 
 ```js
 // models/request/saveUser.js
+import { apiRequest } from '../../core/api.js';
+
 export async function saveUser(data) {
-  const res = await apiRequest('/api/users', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-  return res.json();
+  return apiRequest('/api/users', { method: 'POST', body: data });
 }
 ```
 
 ---
 
-## 2. Response: obtener datos
+## Registrar en actions.js
+
+Los modelos se exponen a los componentes a través de `actions.js`:
+
+```js
+// core/actions.js
+import { getUser }  from '../models/response/getUser.js';
+import { saveUser } from '../models/request/saveUser.js';
+
+export const actions = {
+  getUser,
+  saveUser,
+};
+```
+
+Desde un componente:
+
+```js
+onMount: async (el, shadow, props) => {
+  const user = await actions.getUser(props.id);
+  el.render({ name: user.name, email: user.email });
+}
+```
+
+---
+
+## Manejo de errores
 
 ```js
 // models/response/getUser.js
 export async function getUser(id) {
-  const res = await apiRequest(`/api/users/${id}`);
-  return res.json();
+  try {
+    return await apiRequest(`/api/users/${id}`);
+  } catch (err) {
+    console.error('getUser falló:', err);
+    return null;
+  }
 }
 ```
 
----
-
-## 3. Integración con acciones
-
-```js
-// core/actions.js
-import { saveUser } from '../models/request/saveUser.js';
-import { getUser } from '../models/response/getUser.js';
-
-export const actions = {
-  saveUser,
-  getUser
-};
-```
-
----
-
-## 4. Uso en componentes
-
-### Consumir datos (GET)
-
-```js
-defineComponentFromFiles('user-card-component', 'user-card.html', 'user-card.css', {
-  observed: ['id'],
-  onMount: async (el, shadow) => {
-    const data = await actions.getUser(el.getAttribute('id'));
-    shadow.querySelector('p').textContent = `Hola ${data.name}`;
-  }
-});
-```
-
-### Enviar datos (POST)
-
-```js
-defineComponentFromFiles('user-form-component', 'user-form.html', 'user-form.css', {
-  observed: [],
-  onMount: (el, shadow) => {
-    const form = shadow.querySelector('form');
-    form.onsubmit = async (e) => {
-      e.preventDefault();
-      const name = shadow.querySelector('#name').value;
-      const email = shadow.querySelector('#email').value;
-
-      const result = await actions.saveUser({ name, email });
-      alert(`Usuario guardado con ID: ${result.id}`);
-    };
-  }
-});
-```
-
----
-
-## 5. Buenas prácticas
-
-* Mantener requests y responses separados para claridad.
-
-* Usar actions.js como punto central de acceso.
-
-* Manejar errores con try/catch dentro de las funciones de request/response.
-
-* Documentar cada endpoint en este archivo (docs/api.md) con ejemplos de entrada/salida.
-
-* Evitar lógica compleja en el componente: delegar a models.
-
----
-
->Esta guía asegura que el consumo de APIs en CapyFront sea modular, mantenible y fácil de escalar.
-
----
+Manejar el error en el modelo — el componente solo recibe datos o `null`.

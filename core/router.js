@@ -9,18 +9,58 @@ export const routes = {
   home: () => import('../pages/home/home.js'),
 };// se agregan automáticamente
 
+function matchRoute(routeMap, path) {
+  if (routeMap[path]) {
+    return { entry: routeMap[path], params: {}, name: path };
+  }
+
+  for (const pattern of Object.keys(routeMap)) {
+    if (!pattern.includes(':')) continue;
+    const patParts = pattern.split('/');
+    const pathParts = path.split('/');
+    if (patParts.length !== pathParts.length) continue;
+
+    const params = {};
+    const matched = patParts.every((part, i) => {
+      if (part.startsWith(':')) { params[part.slice(1)] = pathParts[i]; return true; }
+      return part === pathParts[i];
+    });
+
+    if (matched) return { entry: routeMap[pattern], params, name: patParts[0] };
+  }
+
+  return null;
+}
+
 export function initRouter(routeMap) {
   const app = document.getElementById('app');
 
   async function renderRoute() {
-    const route = location.hash.slice(1) || 'home';
-    const loader = routeMap[route] || routeMap['home'];
+    const path = location.hash.slice(1) || 'home';
+    const matched = matchRoute(routeMap, path) || matchRoute(routeMap, 'home');
+
+    if (!matched) {
+      app.innerHTML = `<p>Error: ruta no encontrada.</p>`;
+      return;
+    }
+
+    const { entry, params, name } = matched;
+    const loadFn = typeof entry === 'function' ? entry : entry.load;
+    const title = typeof entry === 'object' && entry.title ? entry.title : null;
+
+    if (title) document.title = title;
 
     app.innerHTML = `<loading-spinner-component></loading-spinner-component>`;
-    await loader();
 
-    const tag = `${route}-page`;
-    app.innerHTML = `<${tag}></${tag}>`;
+    try {
+      await loadFn();
+      const tag = `${name}-page`;
+      const attrs = Object.entries(params).map(([k, v]) => `${k}="${v}"`).join(' ');
+      app.innerHTML = `<${tag} ${attrs}></${tag}>`;
+    } catch (err) {
+      console.error('Error al cargar la ruta:', err);
+      app.innerHTML = `<p>Error al cargar la página.</p>`;
+    }
   }
 
   window.addEventListener('hashchange', renderRoute);

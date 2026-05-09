@@ -4,6 +4,7 @@
  */
 
 export function exampleResponse(raw) {
+  if (!raw) return null;
   return {
     id: raw.id,
     name: raw.name,

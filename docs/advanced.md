@@ -1,154 +1,214 @@
-# Documentación avanzada de CapyFront
+# Casos avanzados
 
-Este documento cubre casos de uso más complejos y patrones recomendados para escalar proyectos con CapyFront.
+## Estado global reactivo — `store.js`
+
+Para compartir datos entre componentes sin pasar props manualmente.
+
+```js
+import { setState, getState, subscribe } from '../../core/store.js';
+
+// Escribir
+setState('cart', [{ id: 1, name: 'Widget', qty: 2 }]);
+
+// Leer
+const cart = getState('cart');
+
+// Suscribirse — retorna función para cancelar
+const unsub = subscribe('cart', (items) => {
+  el.render({ items });
+});
+
+// Cancelar (importante en onDisconnect)
+unsub();
+```
+
+`window.store` también está disponible globalmente: `window.store.setState(...)`.
 
 ---
 
-## 1. Acciones complejas fuera de `actions.js`
+## Re-render del template — `el.render(data)`
 
-En lugar de llenar `actions.js` con lógica extensa, podés crear archivos separados:
+`el.render(data)` fusiona `data` con el estado interno del componente y re-aplica el template.
+
+```html
+<!-- product-list.html -->
+<ul>
+  {{#each products}}
+    <li>{{name}} — ${{price}}</li>
+  {{/each}}
+</ul>
+```
 
 ```js
-// core/actions/getUserData.js
-export async function getUserData() {
-  const res = await apiRequest('/api/user');
-  return res.json();
-}
+defineComponentFromFiles('product-list-component', '...html', '...css', {
+  onMount: async (el, shadow, props) => {
+    const data = await actions.getProducts();
+    el.render({ products: data });
+  }
+});
+```
 
-// core/actions.js
-import { getUserData } from './actions/getUserData.js';
+Los datos pasados a `render()` se acumulan — no reemplazan el estado anterior:
 
-export const actions = {
-  getUserData,
+```js
+el.render({ title: 'Catálogo' });
+el.render({ products: data });
+// el template tiene acceso a title y products
+```
+
+---
+
+## `onDisconnect` — limpieza al desmontar
+
+Se ejecuta cuando el componente se elimina del DOM (ej: al navegar a otra ruta).
+
+```js
+defineComponentFromFiles('live-feed-component', '...html', '...css', {
+  onMount: (el, shadow, props) => {
+    el._unsub = subscribe('feed', items => el.render({ items }));
+    el._timer = setInterval(() => actions.refreshFeed(), 5000);
+  },
+  onDisconnect: (el) => {
+    el._unsub();
+    clearInterval(el._timer);
+  }
+});
+```
+
+Sin `onDisconnect`, los `subscribe` y los `setInterval` seguirían corriendo en segundo plano.
+
+---
+
+## Comunicación hijo → padre — `emit`
+
+`emit` dispara un `CustomEvent` que burbujea a través del Shadow DOM. El padre lo escucha con `addEventListener`.
+
+```js
+// componente hijo
+import { defineComponentFromFiles, emit } from '../../core/component-loader.js';
+
+defineComponentFromFiles('product-card-component', '...html', '...css', {
+  observed: ['id', 'name'],
+  onMount: (el, shadow, props) => {
+    shadow.addEventListener('click', (e) => {
+      if (e.target.matches('.btn-add')) {
+        emit(el, 'add-to-cart', { id: props.id, name: props.name });
+      }
+    });
+  }
+});
+```
+
+```js
+// página padre — en onMount
+const list = shadow.querySelector('#product-list');
+list.addEventListener('add-to-cart', (e) => {
+  const { id, name } = e.detail;
+  const cart = getState('cart') || [];
+  setState('cart', [...cart, { id, name }]);
+});
+```
+
+---
+
+## Rutas con parámetros
+
+```js
+// core/router.js
+export const routes = {
+  home:           () => import('../pages/home/home.js'),
+  'producto/:id': () => import('../pages/producto/producto.js'),
+
+  // Con título de pestaña
+  about: { load: () => import('../pages/about/about.js'), title: 'Sobre nosotros' },
 };
 ```
 
----
+Los parámetros llegan como atributos al componente de página:
 
-## 2. Consumir una API desde un componente
+```
+URL: #producto/42
+→ <producto-page id="42">
+→ onMount recibe props.id === '42'
+```
 
 ```js
-defineComponentFromFiles('user-card-component', 'user-card.html', 'user-card.css', {
+// pages/producto/producto.js
+defineComponentFromFiles('producto-page', '...html', '...css', {
   observed: ['id'],
-  onMount: async (el, shadow) => {
-    const data = await actions.getUserData();
-    shadow.querySelector('p').textContent = `Hola ${data.name}`;
+  onMount: async (el, shadow, props) => {
+    const item = await actions.getProducto(props.id);
+    el.render({ nombre: item.nombre, precio: item.precio });
   }
 });
 ```
 
 ---
 
-## 3. Input de datos con props
+## Persistencia local — `storage.js`
 
-```html
-<user-card-component id="42"></user-card-component>
+```js
+import { save, load, remove, saveSession, loadSession } from '../../core/storage.js';
+
+// localStorage — persiste entre sesiones del navegador
+save('token', 'abc123');
+const token = load('token');           // 'abc123'
+const missing = load('x', 'default'); // 'default' si no existe
+remove('token');
+
+// sessionStorage — se limpia al cerrar la pestaña
+saveSession('draft', { title: 'Borrador' });
+const draft = loadSession('draft');
 ```
 
-El componente observa id y lo usa para pedir datos específicos.
+Caso típico — persistir el carrito:
+
+```js
+// al cambiar el estado
+subscribe('cart', (items) => save('cart', items));
+
+// al montar la app (main.js o página)
+const saved = load('cart', []);
+if (saved.length) setState('cart', saved);
+```
 
 ---
 
-## 4. Output con funciones expuestas
+## Event delegation en Shadow DOM
+
+Al llamar `el.render()`, el Shadow DOM se reemplaza y los listeners directos sobre elementos internos se pierden. Usar event delegation sobre el shadow root:
 
 ```js
-onMount: (el, shadow) => {
-  el.getUserName = () => shadow.querySelector('p').textContent;
-}
-```
-
-Esto expone una función pública que otros scripts pueden invocar.
-
----
-
-## 5. Variables internas en el .js del componente
-
-```js
-defineComponentFromFiles('counter-widget-component', 'counter.html', 'counter.css', {
-  observed: [],
-  onMount: (el, shadow) => {
-    let count = 0; // estado interno
-
-    shadow.querySelector('button').onclick = () => {
-      count++;
-      shadow.querySelector('p').textContent = `Clicks: ${count}`;
-    };
-
-    // expone la variable como getter
-    el.getCount = () => count;
-  }
+// ✅ Sobrevive al re-render
+shadow.addEventListener('click', (e) => {
+  if (e.target.matches('.btn-delete')) eliminar(e.target.dataset.id);
+  if (e.target.matches('.btn-edit'))   editar(e.target.dataset.id);
 });
+
+// ❌ Se pierde tras el próximo render
+shadow.querySelector('.btn-delete').addEventListener('click', ...);
 ```
 
 ---
 
-## 6. ¿Dónde ubicar las funciones?
+## Acciones complejas en archivos separados
 
-La arquitectura de CapyFront soporta dos enfoques:
-
-### Funciones dentro del .js del componente
-
-* ✅ Encapsulan lógica local (estado interno, eventos, cálculos propios).
-
-* ✅ Mantienen todo el comportamiento en un solo archivo.
-
-* ❌ No son reutilizables fuera del componente.
-
-Ejemplo:
+Para lógica reutilizable entre componentes:
 
 ```js
-onMount: (el, shadow) => {
-  let localState = 0;
-  shadow.querySelector('button').onclick = () => localState++;
-  el.getLocalState = () => localState;
+// core/actions/fetchProducts.js
+import { apiRequest } from '../api.js';
+
+export async function fetchProducts(categoria) {
+  return apiRequest(`/api/products?cat=${categoria}`);
 }
 ```
 
----
-
-## Funciones en core/actions/
-
-* ✅ Centralizan lógica reutilizable (ej: llamadas a API, validaciones).
-
-* ✅ Se pueden invocar desde cualquier componente con runAction(...).
-
-* ✅ Facilitan testing y mantenimiento.
-
-* ❌ Requieren importación y registro en actions.js.
-
-Ejemplo:
-
 ```js
-// core/actions/validateForm.js
-export function validateForm(data) {
-  return data.name && data.email;
-}
+// core/actions.js
+import { fetchProducts } from './actions/fetchProducts.js';
+
+export const actions = {
+  fetchProducts,
+};
 ```
-
----
-
-Regla práctica
-
-* Si la función es específica del componente → va en el .js del componente.
-
-* Si la función puede ser reutilizada o expuesta globalmente → va en core/actions/.
-
----
-
-## 7. Buenas prácticas
-
-* Mantener lógica compleja en archivos separados (core/actions/*.js) si es compartida.
-
-* Usar props para entrada declarativa.
-
-* Exponer funciones en el elemento para salida controlada.
-
-* Mantener estado interno con variables locales en onMount.
-
-* Documentar cada patrón con ejemplos claros.
-
----
-
->Esta guía complementa el README.md y está pensada para desarrolladores que quieran aprovechar CapyFront en escenarios más avanzados.
-
----
