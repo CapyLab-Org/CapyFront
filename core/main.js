@@ -19,6 +19,13 @@ if (savedCart.length) setState('cart', savedCart);
 // Persistir carrito en cada cambio
 subscribe('cart', (items) => save('cart', items));
 
+// Restaurar stock persistido (mantiene coherencia con el carrito al refrescar)
+const savedStock = load('stock', null);
+if (savedStock) setState('stock', savedStock);
+
+// Persistir stock en cada cambio
+subscribe('stock', (map) => save('stock', map));
+
 // Restaurar token de sesión si existe
 const savedToken = load('token');
 if (savedToken) setApiToken(savedToken);

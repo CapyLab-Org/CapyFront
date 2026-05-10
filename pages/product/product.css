@@ -79,3 +79,12 @@ h1 {
 .btn-add:hover {
   background: #256639;
 }
+
+.btn-add:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+.btn-add:disabled:hover {
+  background: #a0aec0;
+}
