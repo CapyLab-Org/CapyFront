@@ -199,27 +199,27 @@ Esto importa al desplegar en un subpath (GitHub Pages, Netlify con base path, et
 
 | Path en el template | Localhost (`/`) | Subpath (`/mi-repo/`) |
 |---|---|---|
-| `/public/assets/logo.png` | ✅ | ❌ resuelve a `/public/...` sin el subpath |
-| `./public/assets/logo.png` | ✅ | ✅ |
+| `/assets/logo.png` | ✅ | ❌ resuelve a `/assets/...` sin el subpath |
+| `./assets/logo.png` | ✅ | ✅ |
 
 **Regla: usar siempre `./` al inicio — nunca `/`.**
 
 ```html
 <!-- ❌ Solo funciona si la app está en la raíz del dominio -->
-<img src="/public/assets/logo.png" />
+<img src="/assets/logo.png" />
 
 <!-- ✅ Funciona en cualquier hosting -->
-<img src="./public/assets/logo.png" />
+<img src="./assets/logo.png" />
 ```
 
 Encodear espacios en nombres de archivo:
 
 ```html
 <!-- ❌ -->
-<img src="./public/assets/Capylab minimal.png" />
+<img src="./assets/Capylab minimal.png" />
 
 <!-- ✅ -->
-<img src="./public/assets/Capylab%20minimal.png" />
+<img src="./assets/Capylab%20minimal.png" />
 ```
 
 ---

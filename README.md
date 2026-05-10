@@ -90,8 +90,8 @@ No navegues directamente a archivos `.html` — usá el router.
 **Assets en templates HTML:** usá siempre `./` al inicio — nunca `/`:
 
 ```html
-<img src="./public/assets/logo.png" />   ✅  funciona en cualquier hosting
-<img src="/public/assets/logo.png" />    ❌  falla en subpaths (GitHub Pages, etc.)
+<img src="./assets/logo.png" />   ✅  funciona en cualquier hosting
+<img src="/assets/logo.png" />    ❌  falla en subpaths (GitHub Pages, etc.)
 ```
 
 Los paths `/` se resuelven desde la raíz del dominio, ignorando cualquier subpath de despliegue. Ver [docs/advanced.md](./docs/advanced.md) para más detalle.
