@@ -191,6 +191,39 @@ shadow.querySelector('.btn-delete').addEventListener('click', ...);
 
 ---
 
+## Paths de assets en templates HTML
+
+Los archivos JS resuelven sus paths con `import.meta.url`, por eso son portátiles en cualquier hosting. Pero las URLs de assets (`src`, `href`) dentro de los **templates HTML** se resuelven contra la URL del **documento**, no del archivo template.
+
+Esto importa al desplegar en un subpath (GitHub Pages, Netlify con base path, etc.):
+
+| Path en el template | Localhost (`/`) | Subpath (`/mi-repo/`) |
+|---|---|---|
+| `/public/assets/logo.png` | ✅ | ❌ resuelve a `/public/...` sin el subpath |
+| `./public/assets/logo.png` | ✅ | ✅ |
+
+**Regla: usar siempre `./` al inicio — nunca `/`.**
+
+```html
+<!-- ❌ Solo funciona si la app está en la raíz del dominio -->
+<img src="/public/assets/logo.png" />
+
+<!-- ✅ Funciona en cualquier hosting -->
+<img src="./public/assets/logo.png" />
+```
+
+Encodear espacios en nombres de archivo:
+
+```html
+<!-- ❌ -->
+<img src="./public/assets/Capylab minimal.png" />
+
+<!-- ✅ -->
+<img src="./public/assets/Capylab%20minimal.png" />
+```
+
+---
+
 ## Acciones complejas en archivos separados
 
 Para lógica reutilizable entre componentes:
