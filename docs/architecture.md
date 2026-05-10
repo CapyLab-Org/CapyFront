@@ -36,6 +36,8 @@ models/
 
 tests/
   tests.html           → carga todos los *.test.js como módulos ES
+
+AI_CONTEXT.md          → guía compacta para asistentes de IA
 ```
 
 ---
