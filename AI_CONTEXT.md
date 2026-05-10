@@ -149,4 +149,3 @@ const blob = await apiRequest('/api/files/1', { responseType: 'blob' });
 | `docs/examples.md` | Forms, counters, async patterns, cart/auth flows |
 | `docs/api.md` | Models layer and HTTP client patterns |
 | `docs/architecture.md` | Folder structure and full workflow |
-| `CLAUDE.md` | Extended rules for Claude Code (if using this tool) |
