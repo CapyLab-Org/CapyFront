@@ -29,19 +29,27 @@ defineComponentFromFiles('cart-page', `${_dir}cart.html`, `${_dir}cart.css`, {
 
     // Event delegation — btn-remove y btn-clear sobreviven a cada el.render()
     shadow.addEventListener('click', (e) => {
-      const cart = window.store.getState('cart') || [];
+      const cart     = window.store.getState('cart')  || [];
+      const stockMap = window.store.getState('stock') || {};
 
       if (e.target.matches('.btn-clear')) {
+        // Devolver al stock cada unidad que estaba en el carrito
+        const restored = { ...stockMap };
+        for (const item of cart) {
+          restored[item.id] = (restored[item.id] ?? 0) + 1;
+        }
+        window.store.setState('stock', restored);
         window.store.setState('cart', []);
         return;
       }
 
       if (e.target.matches('.btn-remove')) {
-        const id = e.target.dataset.id;
+        const id  = e.target.dataset.id;
         const idx = cart.findIndex(i => i.id === id);
         if (idx !== -1) {
-          const next = [...cart.slice(0, idx), ...cart.slice(idx + 1)];
-          window.store.setState('cart', next);
+          // Devolver una unidad al stock del producto eliminado
+          window.store.setState('stock', { ...stockMap, [id]: (stockMap[id] ?? 0) + 1 });
+          window.store.setState('cart', [...cart.slice(0, idx), ...cart.slice(idx + 1)]);
         }
       }
     });
