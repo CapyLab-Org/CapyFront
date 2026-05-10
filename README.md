@@ -1,4 +1,4 @@
-# ![CapyFront](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) CapyFront
+# ![CapyFront](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/assets/emoji.png) CapyFront
 
 Micro-framework SPA en HTML, CSS y JS puro. Sin dependencias, sin bundler, sin build step.
 
@@ -123,6 +123,19 @@ await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 
 ---
 
+## Usar CapyFront con un asistente de IA
+
+CapyFront incluye `AI_CONTEXT.md` — un archivo compacto diseñado para que cualquier asistente de IA entienda el framework de inmediato.
+
+**Cómo usarlo:**
+1. Abrí una conversación con tu asistente (ChatGPT, Claude, Gemini, Copilot, etc.)
+2. Pegá o adjuntá el contenido de `AI_CONTEXT.md` como contexto inicial
+3. Pedile lo que necesitás — componentes, páginas, acciones, flujos completos
+
+Con eso es suficiente para desarrollar. Si el asistente necesita más detalle sobre algún patrón específico, los archivos en `docs/` tienen la información extendida.
+
+---
+
 ## Servidor de desarrollo — flags completos
 
 | Flag | Default | Descripción |
@@ -146,7 +159,7 @@ await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 
 ## Versión y cambios
 
-v1.1.0 — ver [CHANGELOG.md](./CHANGELOG.md)
+v1.0.0 — ver [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 

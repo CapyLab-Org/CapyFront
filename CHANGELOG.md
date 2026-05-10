@@ -4,134 +4,79 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
-## [1.1.0] - 2026-05-10
+## [1.0.0] - 2026-05-10
 
-### 🎉 Added — framework
+### Core
 
-- **`core/store.js`** — estado reactivo global sin dependencias
-  - `setState(key, value)` / `getState(key)` / `subscribe(key, fn)`
-  - `subscribe` retorna función `unsubscribe()` para limpiar suscripciones
-  - `window.store` expuesto globalmente desde `main.js`
-
-- **`core/storage.js`** — helpers para persistencia local
-  - `save` / `load` / `remove` sobre `localStorage`
-  - `saveSession` / `loadSession` / `removeSession` sobre `sessionStorage`
-  - Manejo seguro de errores (private browsing, cuota llena)
-
-- **`core/api.js`** — extensiones al cliente HTTP
-  - `setAuthToken(token)` / `clearAuthToken()` — inyección automática de `Authorization: Bearer`
-  - Nuevo parámetro `responseType: 'json' | 'text' | 'blob'` en `apiRequest`
-
-- **Router — rutas con parámetros** (`core/router.js`)
-  - Soporte para rutas dinámicas: `'product/:id'`, `'user/:id/:tab'`
-  - Parámetros pasados como atributos al componente de página
-  - Soporte para formato extendido de ruta: `{ load: fn, title: 'Título' }`
-  - Cambio automático de `document.title` al navegar
-
-- **`component-loader.js`** — motor de componentes mejorado
-  - `el.render(data)` — re-renderiza el template fusionando nuevos datos
-  - Cambio de atributo observado dispara re-render automático
+- **`component-loader.js`** — motor de Web Components
+  - `defineComponentFromFiles(name, htmlPath, cssPath, options)` — define un custom element cargando HTML y CSS externos
+  - `el.render(data)` — re-renderiza el template fusionando datos; event listeners sobreviven gracias a event delegation
+  - `{{prop}}` — interpolación de variables en templates
   - `{{#each key}}...{{/each}}` — iteración sobre arrays en templates
-  - `onDisconnect(el, shadow)` — callback de limpieza al desmontar el componente
-  - `emit(el, eventName, detail)` — emite `CustomEvent` que burbujea a través del Shadow DOM
+  - `emit(el, eventName, detail)` — CustomEvent que burbujea a través del Shadow DOM
+  - `observed: [...]` — atributos observados; un cambio dispara re-render automático
+  - `onMount(el, shadow, props)` / `onDisconnect(el, shadow)` — ciclo de vida del componente
 
-### 🎉 Added — servidor de desarrollo (`capyfront-server`)
+- **`router.js`** — router hash-based
+  - Rutas estáticas (`home`) y con parámetros (`product/:id`, `user/:id/:tab`)
+  - Formato `{ load: fn, title: 'Título' }` — actualiza `document.title` al navegar
+  - Parámetros pasados como atributos al componente de página
 
-- **Live reload** — detecta cambios en `.js`, `.html` y `.css` e inyecta un script SSE en `index.html` que recarga el browser automáticamente. Ignora `tools/` y `.git/`.
-- **Request logger** — loguea método, path, status coloreado (verde/amarillo/rojo) y tiempo de respuesta por cada request.
-- **API proxy** — flag `-proxy=/prefix:http://host:port` reenvía requests al backend sin necesidad de configurar CORS. Repetible para múltiples prefijos.
-- **Network IP** — muestra la IP de red local al arrancar para probar desde celulares u otros dispositivos.
-- **Port conflict detection** — avisa si el puerto está en uso con mensaje claro en lugar de fallar silenciosamente.
+- **`store.js`** — estado reactivo global
+  - `setState(key, value)` / `getState(key)`
+  - `subscribe(key, fn)` — retorna función `unsubscribe()`
+  - Disponible globalmente como `window.store`
 
-### 🎉 Added — generador `capy-new`
+- **`storage.js`** — persistencia local
+  - `save` / `load` / `remove` — `localStorage`
+  - `saveSession` / `loadSession` / `removeSession` — `sessionStorage`
+  - Serialización JSON automática y manejo seguro de errores
 
-- Flags cortos: `-c` (alias de `-component`), `-p` (alias de `-page`), `-d` (alias de `-delete`)
-- Comando **delete** (`-d -c <nombre>` / `-d -p <nombre>`) — borra la carpeta del componente/página y elimina todas sus referencias en `components.js`, `router.js`, `actions.js` y `tests/tests.html`
-- Templates generados actualizados: incluyen `emit`, `props` en `onMount`, `onDisconnect`, y comentarios guía para `el.render` y `{{#each}}`
+- **`api.js`** — cliente HTTP
+  - `apiRequest(endpoint, options)` — wrapper sobre fetch
+  - `setAuthToken(token)` / `clearAuthToken()` — `Authorization: Bearer` automático en todos los requests
+  - `responseType: 'json' | 'text' | 'blob'`
 
-### 🔧 Changed
+- **`actions.js`** — registro central de funciones globales
+  - `runAction(name, ...args)` — dispatcher
+  - Disponible globalmente como `window.actions`
 
-- `core/main.js` expone `window.store` con `setState`, `getState`, `subscribe`
-- `component-loader.js` refactoriza rendering en función interna `processTemplate`
-- `api.js` corrige condición `body !== null` (antes `if (body)` ignoraba `0` y `false`)
-- CSS generado por `capy-new` usa selector de clase (`.nombre-component`) en lugar de `div` genérico
-- **Entry point estandarizado** — `index.html` se ubica en la raíz del repo; `public/` queda exclusivamente para assets estáticos. `capyfront-server` actualizado para servir desde la raíz.
+- **`components.js`** — registro de componentes con `loadUsedComponents(root)`
 
-### 🐛 Fixed
+### Herramientas
 
-- **Portabilidad de paths en templates** — `capy-new` genera paths resueltos con `import.meta.url` en lugar de paths relativos al documento (`../components/...`). Los paths anteriores fallaban en subpath deployments (GitHub Pages, Netlify con base path); los nuevos funcionan en cualquier hosting.
+- **`capy-new`** (Linux + Windows) — generador CLI
+  - `-c <nombre>` / `-p <nombre>` — crea componente o página con todos los archivos
+  - `-d -c <nombre>` / `-d -p <nombre>` — borra y desregistra limpiamente
+  - Auto-registra en `components.js`, `router.js`, `actions.js` y `tests/tests.html`
+  - Templates generados incluyen `emit`, `props`, `onDisconnect` y guías de `el.render` + `{{#each}}`
 
-  ```js
-  // Antes (frágil)
-  defineComponentFromFiles('my-component', '../components/my/my.html', ...)
+- **`capyfront-server`** (Linux + Windows) — servidor de desarrollo
+  - Live reload automático para cambios en `.js`, `.html` y `.css`
+  - Request logger con método, path, status coloreado y tiempo de respuesta
+  - API proxy: `-proxy=/prefix:http://host:port`, repetible para múltiples backends
+  - Muestra IP de red local al arrancar
+  - Detección de conflictos de puerto
 
-  // Ahora (portátil)
-  const _dir = new URL('.', import.meta.url).href;
-  defineComponentFromFiles('my-component', `${_dir}my.html`, ...)
-  ```
+### Tests
 
-- **Assets en templates HTML** — las URLs de assets (`src`, `href`) en templates HTML se resuelven contra la URL del documento, no del template. Documentado en `docs/advanced.md`: usar siempre `./` en lugar de `/` al inicio del path.
+- Runner visual en `tests/tests.html` — resultados en pantalla agrupados por categoría, banner pass/fail
+- Test generado automáticamente por `capy-new` para cada componente nuevo
+- `capyfront-server -test` sirve los tests en `http://localhost:8081`
 
----
+### Documentación
 
-## [1.0.0] - 2025-11-21
-
-### 🎉 Added
-
-- Generador de componentes y páginas (`capy-new` / `capy-new.exe`)
-  - Crea estructura mínima (`.html`, `.css`, `.js`)
-  - Registra automáticamente en `components.js`, `router.js`, `actions.js`, `tests/tests.html`
-- Servidor local sin dependencias (`capyfront-server`/`capyfront-server.exe`)
-- Props declarativas (`{{prop}}`) en HTML
-- Acciones seguras (`onClick="getXyzId()"`) validadas contra `actions.js`
-- Registro automático de acciones con nombre camelCase (`getLoadingSpinnerId`)
-- Generación de tests (`*.test.js`) por componente
-- Ejecución de tests en navegador vía `tests/tests.html`
-- Carpeta `models/` con `request/` y `response/` para organizar lógica de datos
-- Función `apiRequest()` en `core/api.js` para consumir endpoints
-- Validación de nombres en generador (solo letras, números y guiones)
-- Capitalización segura para nombres con guiones (`loading-spinner` → `getLoadingSpinnerId`)
-- Soporte para acciones complejas en archivos separados (`core/actions/*.js`)
-- Registro modular de acciones importadas en `actions.js`
-
-### 🧹 Changed
-
-- Estructura del repo organizada en carpetas:
-  - `core/`, `components/`, `pages/`, `models/`, `tools/`, `tests/`
-- `actions.js` convertido en registro central, delegando lógica a archivos externos
-
-### 🧪 Tests
-
-- Cada componente genera su propio test
-- `tests/tests.html` carga todos los tests automáticamente
-- Validación de acciones existentes y fallos esperados (`runAction('inexistente') → undefined`)
-
-### 📁 Binarios
-
-#### Generadores
-
-- `capy-new` para Linux/macOS
-- `capy-new.exe` para Windows
-- Ambos binarios generan componentes/páginas con registro completo y test
-
-#### Servidores
-
-- `capyfront-server` para Linux/macOS
-- `capyfront-server.exe` para Windows
-- Ambos binarios levantan un servidor local sin dependecias ni instalaciones externas
+- `docs/architecture.md` — estructura de carpetas y flujo de datos
+- `docs/advanced.md` — store, emit, re-render, route params, asset paths, event delegation
+- `docs/examples.md` — recetario de patrones comunes
+- `docs/api.md` — capa de modelos y cliente HTTP
+- `AI_CONTEXT.md` — guía compacta para usar CapyFront con asistentes de IA
 
 ---
 
-## ![Mi ícono](https://raw.githubusercontent.com/CapyLab-Org/CapyFront/refs/heads/main/public/assets/emoji.png) Filosofía
+## Filosofía
 
-- **Minimalismo**: sin dependencias externas
-- **Automatización**: generación, registro y testeo sin fricción
-- **Modularidad**: componentes y acciones desacopladas
-- **Transparencia**: tests visibles, código legible
-
----
-
-> CapyFront v1.0 marca el inicio de una arquitectura modular, automatizada y sin dependencias.  
-> Ideal para equipos que valoran claridad, velocidad y control total sobre su frontend.
-
----
+- **Minimalismo** — sin dependencias externas
+- **Automatización** — generación, registro y testeo sin fricción
+- **Modularidad** — componentes y acciones desacoplados
+- **Transparencia** — tests visibles, código legible
