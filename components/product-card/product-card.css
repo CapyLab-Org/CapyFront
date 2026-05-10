@@ -1,0 +1,88 @@
+/* @license MIT
+   Copyright (c) 2025 CapyLab Studio */
+
+:host {
+  display: block;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
+}
+
+.emoji {
+  font-size: 3rem;
+  margin-bottom: 8px;
+}
+
+h3 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  color: #1a202c;
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2d7d46;
+  margin: 4px 0;
+}
+
+.stock {
+  font-size: 0.8rem;
+  color: #718096;
+  margin: 4px 0 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.btn-detail {
+  padding: 7px 14px;
+  border: 1px solid #4a90e2;
+  border-radius: 6px;
+  color: #4a90e2;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: background 0.15s;
+}
+
+.btn-detail:hover {
+  background: #eef4fd;
+}
+
+.btn-add {
+  padding: 7px 14px;
+  background: #2d7d46;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-add:hover {
+  background: #256639;
+}
+
+.btn-add:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+.btn-add:disabled:hover {
+  background: #a0aec0;
+}

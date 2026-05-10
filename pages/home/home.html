@@ -2,8 +2,33 @@
      Copyright (c) 2025 CapyLab Studio -->
 
 <header-bar-component></header-bar-component>
-<section>
-  <h1>Bienvenido a CapyFront</h1>
-  <p>Una arquitectura minimalista para construir SPAs sin dependencias.</p>
+
+<nav class="topnav">
+  <a href="#home">Inicio</a>
+  <a href="#about">Sobre</a>
+  <a href="#contact">Contacto</a>
+  <a href="#login">Login</a>
+  <cart-icon-component></cart-icon-component>
+</nav>
+
+<section class="hero">
+  <h1>Tienda CapyFront 🦫</h1>
+  <p>Demo de todas las features del framework: store, emit, router, storage y más.</p>
 </section>
+
+<section class="catalog">
+  <h2>Catálogo de productos</h2>
+  <div class="grid" id="product-list">
+    {{#each products}}
+      <product-card-component id="{{id}}" name="{{name}}" price="{{price}}" emoji="{{emoji}}" stock="{{stock}}"></product-card-component>
+    {{/each}}
+  </div>
+</section>
+
+<section class="demo">
+  <h2>Demo: contador con re-render</h2>
+  <p>Cada clic llama a <code>el.render()</code> — los event listeners sobreviven gracias a event delegation.</p>
+  <counter-component></counter-component>
+</section>
+
 <footer-bar-component></footer-bar-component>

@@ -1,0 +1,38 @@
+<!-- @license MIT
+     Copyright (c) 2025 CapyLab Studio -->
+
+<header-bar-component></header-bar-component>
+
+<nav class="topnav">
+  <a href="#home">← Volver</a>
+</nav>
+
+<section class="login-section">
+  <h1>Iniciar sesión</h1>
+  <p class="subtitle">Demo de auth token + sessionStorage</p>
+
+  <form class="login-form" id="login-form">
+    <label>Email
+      <input type="email" id="email" placeholder="capy@lab.com" />
+    </label>
+    <label>Contraseña
+      <input type="password" id="password" placeholder="••••••••" />
+    </label>
+    <p class="error-msg">{{error}}</p>
+    <button type="submit">Entrar</button>
+  </form>
+
+  <div class="success-msg">{{successMsg}}</div>
+
+  <div class="info-box">
+    <strong>Qué hace este demo:</strong>
+    <ul>
+      <li>Valida campos vacíos</li>
+      <li>Llama a <code>setAuthToken(token)</code></li>
+      <li>Guarda token en <code>localStorage</code></li>
+      <li>Guarda draft del email en <code>sessionStorage</code></li>
+    </ul>
+  </div>
+</section>
+
+<footer-bar-component></footer-bar-component>

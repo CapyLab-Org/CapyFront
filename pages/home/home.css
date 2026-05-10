@@ -1,14 +1,87 @@
 /* @license MIT
    Copyright (c) 2025 CapyLab Studio */
 
-/* estilos para home-page */
-
-section {
-  text-align: center;
-  padding: 2em;
+:host {
+  display: block;
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
-h1 {
-  font-size: 2em;
-  margin-bottom: 0.5em;
+.topnav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 32px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.topnav a {
+  text-decoration: none;
+  color: #4a5568;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+
+.topnav a:hover {
+  color: #2d7d46;
+}
+
+.hero {
+  text-align: center;
+  padding: 48px 24px 32px;
+  background: linear-gradient(135deg, #e8f5e9 0%, #f0f7ff 100%);
+}
+
+.hero h1 {
+  font-size: 2.2rem;
+  margin: 0 0 10px;
+  color: #1a202c;
+}
+
+.hero p {
+  color: #4a5568;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.catalog {
+  padding: 32px;
+}
+
+.catalog h2 {
+  margin: 0 0 20px;
+  font-size: 1.4rem;
+  color: #1a202c;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.demo {
+  padding: 32px;
+  text-align: center;
+}
+
+.demo h2 {
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  color: #1a202c;
+}
+
+.demo p {
+  color: #718096;
+  font-size: 0.9rem;
+  margin: 0 0 20px;
+}
+
+code {
+  background: #edf2f7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85em;
 }

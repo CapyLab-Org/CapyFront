@@ -4,8 +4,17 @@
  */
 
 import { actionExample } from './actions/actionExample.js';
+import { getProducts } from '../models/response/getProducts.js';
+import { getProduct }  from '../models/response/getProduct.js';
+import { saveContact } from '../models/request/saveContact.js';
 
 export const actions = {
+  getProducts,
+  getProduct,
+  saveContact,
+  getCounterId: () => 'counter-id',
+  getCartIconId: () => 'cart-icon-id',
+  getProductCardId: () => 'product-card-id',
   actionExample,
   getFooterBarId: () => 'footer-bar-id',
   getHeaderBarId: () => 'header-bar-id',

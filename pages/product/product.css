@@ -1,0 +1,81 @@
+/* @license MIT
+   Copyright (c) 2025 CapyLab Studio */
+
+:host {
+  display: block;
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.topnav a {
+  text-decoration: none;
+  color: #4a5568;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+
+.topnav a:hover {
+  color: #2d7d46;
+}
+
+.detail {
+  max-width: 480px;
+  margin: 48px auto;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.emoji {
+  font-size: 5rem;
+  margin-bottom: 12px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0 0 8px;
+  color: #1a202c;
+}
+
+.desc {
+  color: #718096;
+  font-size: 1rem;
+  margin: 0 0 20px;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d7d46;
+  margin: 0 0 4px;
+}
+
+.stock {
+  font-size: 0.85rem;
+  color: #a0aec0;
+  margin: 0 0 24px;
+}
+
+.btn-add {
+  padding: 14px 32px;
+  background: #2d7d46;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-add:hover {
+  background: #256639;
+}

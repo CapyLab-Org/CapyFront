@@ -4,8 +4,11 @@
  */
 
 export const routes = {
+  login: { load: () => import('../pages/login/login.js'), title: 'Iniciar sesión' },
+  cart:  { load: () => import('../pages/cart/cart.js'),  title: 'Carrito' },
+  'product/:id': () => import('../pages/product/product.js'),
   contact: () => import('../pages/contact/contact.js'),
-  about: () => import('../pages/about/about.js'),
+  about: { load: () => import('../pages/about/about.js'), title: 'Sobre CapyFront' },
   home: () => import('../pages/home/home.js'),
 };// se agregan automáticamente
 

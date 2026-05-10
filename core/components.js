@@ -4,6 +4,9 @@
  */
 
 export const components = {
+  'counter-component': () => import('../components/counter/counter.js'),
+  'cart-icon-component': () => import('../components/cart-icon/cart-icon.js'),
+  'product-card-component': () => import('../components/product-card/product-card.js'),
   'footer-bar-component': () => import('../components/footer-bar/footer-bar.js'),
   'header-bar-component': () => import('../components/header-bar/header-bar.js'),
   'loading-spinner-component': () => import('../components/loading-spinner/loading-spinner.js'),

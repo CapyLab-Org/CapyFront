@@ -1,7 +1,37 @@
 <!-- @license MIT
      Copyright (c) 2025 CapyLab Studio -->
 
-<section>
-  <h2>Sobre CapyFront</h2>
+<header-bar-component></header-bar-component>
+
+<nav class="topnav">
+  <a href="#home">← Inicio</a>
+</nav>
+
+<section class="about-section">
+  <h1>Sobre CapyFront</h1>
   <p>CapyFront fue creado para desarrolladores que valoran la claridad, la velocidad y el control total.</p>
+
+  <h2>Principios</h2>
+  <ul>
+    <li><strong>Sin dependencias</strong> — HTML, CSS y JS nativos. Sin npm, sin bundler, sin build step.</li>
+    <li><strong>Modular</strong> — cada componente, página y acción vive en su propio archivo.</li>
+    <li><strong>Automatizado</strong> — <code>capy-new</code> genera y registra todo automáticamente.</li>
+  </ul>
+
+  <h2>Features demostradas en esta app</h2>
+  <ul>
+    <li>Web Components con Shadow DOM</li>
+    <li>Router hash-based con parámetros (<code>#product/:id</code>)</li>
+    <li>Título de pestaña por ruta (<code>{ load, title }</code>)</li>
+    <li>Store global reactivo con <code>subscribe</code></li>
+    <li>Persistencia con <code>localStorage</code> y <code>sessionStorage</code></li>
+    <li>Comunicación hijo→padre con <code>emit()</code></li>
+    <li>Event delegation sobre Shadow DOM</li>
+    <li><code>{{#each}}</code> y re-render con <code>el.render()</code></li>
+    <li>Auth token con <code>setAuthToken()</code></li>
+    <li>Capa de modelos (<code>models/response/</code>, <code>models/request/</code>)</li>
+    <li><code>onDisconnect</code> para limpiar suscripciones y timers</li>
+  </ul>
 </section>
+
+<footer-bar-component></footer-bar-component>
