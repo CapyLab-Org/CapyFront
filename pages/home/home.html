@@ -2,8 +2,37 @@
      Copyright (c) 2025 CapyLab Studio -->
 
 <header-bar-component></header-bar-component>
-<section>
-  <h1>Bienvenido a CapyFront</h1>
-  <p>Una arquitectura minimalista para construir SPAs sin dependencias.</p>
+
+<section class="hero">
+  <h1>El framework SPA<br>sin dependencias</h1>
+  <p class="lead">Web Components nativos, router hash-based, estado reactivo y CLI generador. Sin npm, sin bundler, sin build step.</p>
+  <div class="cta-group">
+    <a class="btn-primary" href="#about">Conocé más</a>
+    <a class="btn-secondary" href="./tests/tests.html">Ver tests</a>
+  </div>
 </section>
+
+<section class="features">
+  <div class="feature-card">
+    <div class="feature-icon">🧩</div>
+    <h3>Web Components</h3>
+    <p>Shadow DOM nativo, props <code>{{declarativas}}</code> e iteración <code>{{#each}}</code> con re-render reactivo.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">🔀</div>
+    <h3>Router + Store</h3>
+    <p>Rutas con parámetros, títulos de pestaña y estado global reactivo con <code>subscribe</code>.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">💾</div>
+    <h3>Persistencia</h3>
+    <p>Helpers para <code>localStorage</code> y <code>sessionStorage</code> con serialización automática.</p>
+  </div>
+  <div class="feature-card">
+    <div class="feature-icon">⚡</div>
+    <h3>CLI generador</h3>
+    <p><code>capy-new</code> crea y registra componentes y páginas con un solo comando.</p>
+  </div>
+</section>
+
 <footer-bar-component></footer-bar-component>

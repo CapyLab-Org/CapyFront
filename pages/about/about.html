@@ -1,7 +1,26 @@
 <!-- @license MIT
      Copyright (c) 2025 CapyLab Studio -->
 
-<section>
-  <h2>Sobre CapyFront</h2>
-  <p>CapyFront fue creado para desarrolladores que valoran la claridad, la velocidad y el control total.</p>
+<header-bar-component></header-bar-component>
+
+<section class="about">
+  <h1>Sobre CapyFront</h1>
+  <p class="lead">Un micro-framework para desarrolladores que valoran la claridad, la velocidad y el control total.</p>
+
+  <h2>Principios</h2>
+  <ul>
+    <li><strong>Sin dependencias</strong> — HTML, CSS y JS nativos. Sin npm, sin bundler, sin build step.</li>
+    <li><strong>Modular</strong> — cada componente, página y acción vive en su propio archivo.</li>
+    <li><strong>Automatizado</strong> — <code>capy-new</code> genera y registra todo automáticamente.</li>
+    <li><strong>Portátil</strong> — funciona en cualquier hosting estático: GitHub Pages, Netlify, etc.</li>
+  </ul>
+
+  <h2>Cómo funciona</h2>
+  <ul>
+    <li>El router lee el hash de la URL (<code>#ruta</code>) y monta el componente de página correspondiente.</li>
+    <li>Cada componente usa Shadow DOM — estilos y markup encapsulados, sin colisiones.</li>
+    <li>El store global notifica a los suscriptores en cada cambio de estado.</li>
+  </ul>
 </section>
+
+<footer-bar-component></footer-bar-component>

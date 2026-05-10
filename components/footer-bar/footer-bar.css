@@ -1,7 +1,20 @@
 /* @license MIT
    Copyright (c) 2025 CapyLab Studio */
 
-/* estilos para footer-bar-component */
-div {
-  padding: 1em;
+:host { display: block; }
+
+.site-footer {
+  border-top: 1px solid #e2e8f0;
+  padding: 24px 32px;
+  text-align: center;
+  font-size: .85rem;
+  color: #718096;
+  background: #fff;
 }
+
+.site-footer a {
+  color: #2d7d46;
+  text-decoration: none;
+}
+
+.site-footer a:hover { text-decoration: underline; }

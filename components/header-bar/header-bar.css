@@ -1,7 +1,32 @@
 /* @license MIT
    Copyright (c) 2025 CapyLab Studio */
 
-/* estilos para header-bar-component */
-div {
-  padding: 1em;
+:host { display: block; }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 64px;
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
+
+.brand { display: flex; align-items: center; }
+.brand img { height: 32px; display: block; }
+
+nav { display: flex; gap: 24px; }
+
+nav a {
+  text-decoration: none;
+  font-size: .9rem;
+  color: #4a5568;
+  font-weight: 500;
+  transition: color .15s;
+}
+
+nav a:hover { color: #2d7d46; }

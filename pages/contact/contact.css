@@ -1,19 +1,73 @@
 /* @license MIT
    Copyright (c) 2025 CapyLab Studio */
 
-h2 {
-  text-align: center;
+:host {
+  display: block;
+  font-family: system-ui, sans-serif;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.contact {
+  max-width: 520px;
+  margin: 64px auto;
+  padding: 0 24px;
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a202c;
+  margin: 0 0 12px;
+}
+
+.lead {
+  font-size: 1rem;
+  color: #718096;
+  margin: 0 0 32px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  max-width: 400px;
-  margin: auto;
+  gap: 6px;
+}
+
+label {
+  font-size: .85rem;
+  font-weight: 600;
+  color: #4a5568;
+  margin-top: 10px;
 }
 
 input, textarea {
-  padding: 0.5em;
-  font-size: 1em;
+  padding: 10px 14px;
+  font-size: .95rem;
+  font-family: inherit;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #fff;
+  transition: border-color .15s;
+  outline: none;
+  color: #1a202c;
 }
+
+input:focus, textarea:focus { border-color: #2d7d46; }
+
+textarea { resize: vertical; }
+
+button {
+  margin-top: 16px;
+  padding: 12px;
+  background: #2d7d46;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+button:hover { background: #256639; }

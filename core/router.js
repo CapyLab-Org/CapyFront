@@ -4,9 +4,9 @@
  */
 
 export const routes = {
-  contact: () => import('../pages/contact/contact.js'),
-  about: () => import('../pages/about/about.js'),
-  home: () => import('../pages/home/home.js'),
+  contact: { load: () => import('../pages/contact/contact.js'), title: 'Contacto — CapyFront' },
+  about:   { load: () => import('../pages/about/about.js'),    title: 'Sobre — CapyFront' },
+  home:    { load: () => import('../pages/home/home.js'),      title: 'CapyFront' },
 };// se agregan automáticamente
 
 function matchRoute(routeMap, path) {
