@@ -4,6 +4,14 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
+## [1.1.2] - 2026-05-10
+
+### 🔧 Changed
+
+- **Entry point estandarizado** — `index.html` se ubica ahora en la raíz del repositorio en lugar de `public/`. El servidor de desarrollo (`capyfront-server`) sirve `index.html` desde la raíz; `public/` queda exclusivamente para assets estáticos.
+
+---
+
 ## [1.1.1] - 2026-05-10
 
 ### 🐛 Fixed

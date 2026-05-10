@@ -82,7 +82,7 @@ docs/           → documentación avanzada
 
 ## Rutas y assets
 
-CapyFront es una SPA — todas las rutas se resuelven desde `public/index.html` vía hash routing.
+CapyFront es una SPA — todas las rutas se resuelven desde `index.html` (en la raíz del repo) vía hash routing.
 
 Navegación: `http://localhost:8080/#about`  
 No navegues directamente a archivos `.html` — usá el router.
@@ -146,7 +146,7 @@ await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 
 ## Versión y cambios
 
-v1.1.0 — ver [CHANGELOG.md](./CHANGELOG.md)
+v1.1.2 — ver [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
