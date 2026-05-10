@@ -5,6 +5,6 @@
 
 import { defineComponentFromFiles } from '../../core/component-loader.js';
 
-await defineComponentFromFiles('loading-spinner-component', '../components/loading-spinner/loading-spinner.html', '../components/loading-spinner/loading-spinner.css', {
+await defineComponentFromFiles('loading-spinner-component', './components/loading-spinner/loading-spinner.html', './components/loading-spinner/loading-spinner.css', {
   observed: ['id', 'name'],
 });

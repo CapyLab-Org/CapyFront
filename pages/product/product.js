@@ -7,7 +7,7 @@ import { defineComponentFromFiles } from '../../core/component-loader.js';
 import { loadUsedComponents } from '../../core/components.js';
 import { actions } from '../../core/actions.js';
 
-defineComponentFromFiles('product-page', '../pages/product/product.html', '../pages/product/product.css', {
+defineComponentFromFiles('product-page', './pages/product/product.html', './pages/product/product.css', {
   observed: ['id'],
   onMount: async (el, shadow, props) => {
     await loadUsedComponents(shadow);

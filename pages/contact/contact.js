@@ -7,7 +7,7 @@ import { defineComponentFromFiles } from '../../core/component-loader.js';
 import { loadUsedComponents } from '../../core/components.js';
 import { actions } from '../../core/actions.js';
 
-await defineComponentFromFiles('contact-page', '../pages/contact/contact.html', '../pages/contact/contact.css', {
+await defineComponentFromFiles('contact-page', './pages/contact/contact.html', './pages/contact/contact.css', {
   onMount: async (el, shadow) => {
     await loadUsedComponents(shadow);
 
