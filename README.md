@@ -146,7 +146,7 @@ await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 
 ## Versión y cambios
 
-v1.1.2 — ver [CHANGELOG.md](./CHANGELOG.md)
+v1.1.0 — ver [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
