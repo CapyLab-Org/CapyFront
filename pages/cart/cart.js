@@ -15,7 +15,8 @@ function renderCart(el, items) {
   el.render({ items, total: calcTotal(items), emptyMsg });
 }
 
-defineComponentFromFiles('cart-page', './pages/cart/cart.html', './pages/cart/cart.css', {
+const _dir = new URL('.', import.meta.url).href;
+defineComponentFromFiles('cart-page', `${_dir}cart.html`, `${_dir}cart.css`, {
   onMount: async (el, shadow) => {
     await loadUsedComponents(shadow);
 

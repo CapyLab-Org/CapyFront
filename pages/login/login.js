@@ -8,7 +8,8 @@ import { loadUsedComponents } from '../../core/components.js';
 import { setAuthToken } from '../../core/api.js';
 import { save, load, saveSession, loadSession } from '../../core/storage.js';
 
-defineComponentFromFiles('login-page', './pages/login/login.html', './pages/login/login.css', {
+const _dir = new URL('.', import.meta.url).href;
+defineComponentFromFiles('login-page', `${_dir}login.html`, `${_dir}login.css`, {
   onMount: async (el, shadow) => {
     await loadUsedComponents(shadow);
 

@@ -5,7 +5,8 @@
 
 import { defineComponentFromFiles } from '../../core/component-loader.js';
 
-defineComponentFromFiles('counter-component', './components/counter/counter.html', './components/counter/counter.css', {
+const _dir = new URL('.', import.meta.url).href;
+defineComponentFromFiles('counter-component', `${_dir}counter.html`, `${_dir}counter.css`, {
   onMount: (el, shadow, props) => {
     el.render({ count: 0 });
 

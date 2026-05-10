@@ -5,7 +5,8 @@
 
 import { defineComponentFromFiles } from '../../core/component-loader.js';
 
-defineComponentFromFiles('cart-icon-component', './components/cart-icon/cart-icon.html', './components/cart-icon/cart-icon.css', {
+const _dir = new URL('.', import.meta.url).href;
+defineComponentFromFiles('cart-icon-component', `${_dir}cart-icon.html`, `${_dir}cart-icon.css`, {
   onMount: (el, shadow, props) => {
     el.render({ count: (window.store.getState('cart') || []).length });
 

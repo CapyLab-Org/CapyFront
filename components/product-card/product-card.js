@@ -5,7 +5,8 @@
 
 import { defineComponentFromFiles, emit } from '../../core/component-loader.js';
 
-defineComponentFromFiles('product-card-component', './components/product-card/product-card.html', './components/product-card/product-card.css', {
+const _dir = new URL('.', import.meta.url).href;
+defineComponentFromFiles('product-card-component', `${_dir}product-card.html`, `${_dir}product-card.css`, {
   observed: ['id', 'name', 'price', 'emoji', 'stock'],
   onMount: (el, shadow, props) => {
     const stock = parseInt(props.stock) || 0;
