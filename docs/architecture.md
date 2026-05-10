@@ -35,9 +35,9 @@ models/
   response/            → funciones que obtienen datos (GET)
 
 tests/
-  tests.html           → carga todos los *.test.js como módulos ES
+  tests.html           → runner visual; carga todos los *.test.js como módulos ES
 
-AI_CONTEXT.md          → guía compacta para asistentes de IA
+AI_CONTEXT.md          → guía compacta para usar CapyFront con asistentes de IA
 ```
 
 ---

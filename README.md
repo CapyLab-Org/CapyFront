@@ -120,7 +120,6 @@ await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 | [docs/advanced.md](./docs/advanced.md) | Store, emit, render, route params, storage |
 | [docs/examples.md](./docs/examples.md) | Recetario de patrones comunes |
 | [docs/api.md](./docs/api.md) | Capa models + cliente HTTP |
-| [AI_CONTEXT.md](./AI_CONTEXT.md) | Guía compacta para asistentes de IA |
 
 ---
 
@@ -133,7 +132,7 @@ CapyFront incluye `AI_CONTEXT.md` — un archivo compacto diseñado para que cua
 2. Pegá o adjuntá el contenido de `AI_CONTEXT.md` como contexto inicial
 3. Pedile lo que necesitás — componentes, páginas, acciones, flujos completos
 
-Con eso es suficiente para que el asistente genere código compatible con CapyFront sin necesidad de explicar la arquitectura cada vez.
+Con eso es suficiente para desarrollar. Si el asistente necesita más detalle sobre algún patrón específico, los archivos en `docs/` tienen la información extendida.
 
 ---
 
