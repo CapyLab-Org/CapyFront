@@ -82,15 +82,19 @@ docs/           → documentación avanzada
 
 ## Rutas y assets
 
-CapyFront es una SPA — todas las rutas se resuelven desde `public/index.html`. Usá siempre **rutas absolutas** para assets:
+CapyFront es una SPA — todas las rutas se resuelven desde `index.html` (en la raíz del repo) vía hash routing.
+
+Navegación: `http://localhost:8080/#about`  
+No navegues directamente a archivos `.html` — usá el router.
+
+**Assets en templates HTML:** usá siempre `./` al inicio — nunca `/`:
 
 ```html
-<img src="/public/assets/logo.png" />   ✅
-<img src="../assets/logo.png" />         ❌
+<img src="./public/assets/logo.png" />   ✅  funciona en cualquier hosting
+<img src="/public/assets/logo.png" />    ❌  falla en subpaths (GitHub Pages, etc.)
 ```
 
-Navegación hash: `http://localhost:8080/#about`  
-No navegues directamente a archivos `.html` — usá el router.
+Los paths `/` se resuelven desde la raíz del dominio, ignorando cualquier subpath de despliegue. Ver [docs/advanced.md](./docs/advanced.md) para más detalle.
 
 ---
 

@@ -4,7 +4,7 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
-## [1.1.0] - 2026-05-09
+## [1.1.0] - 2026-05-10
 
 ### 🎉 Added — framework
 
@@ -55,6 +55,22 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 - `component-loader.js` refactoriza rendering en función interna `processTemplate`
 - `api.js` corrige condición `body !== null` (antes `if (body)` ignoraba `0` y `false`)
 - CSS generado por `capy-new` usa selector de clase (`.nombre-component`) en lugar de `div` genérico
+- **Entry point estandarizado** — `index.html` se ubica en la raíz del repo; `public/` queda exclusivamente para assets estáticos. `capyfront-server` actualizado para servir desde la raíz.
+
+### 🐛 Fixed
+
+- **Portabilidad de paths en templates** — `capy-new` genera paths resueltos con `import.meta.url` en lugar de paths relativos al documento (`../components/...`). Los paths anteriores fallaban en subpath deployments (GitHub Pages, Netlify con base path); los nuevos funcionan en cualquier hosting.
+
+  ```js
+  // Antes (frágil)
+  defineComponentFromFiles('my-component', '../components/my/my.html', ...)
+
+  // Ahora (portátil)
+  const _dir = new URL('.', import.meta.url).href;
+  defineComponentFromFiles('my-component', `${_dir}my.html`, ...)
+  ```
+
+- **Assets en templates HTML** — las URLs de assets (`src`, `href`) en templates HTML se resuelven contra la URL del documento, no del template. Documentado en `docs/advanced.md`: usar siempre `./` en lugar de `/` al inicio del path.
 
 ---
 
