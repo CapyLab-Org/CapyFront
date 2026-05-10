@@ -6,7 +6,8 @@
 import { defineComponentFromFiles } from '../../core/component-loader.js';
 import { loadUsedComponents } from '../../core/components.js';
 
-await defineComponentFromFiles('contact-page', '../pages/contact/contact.html', '../pages/contact/contact.css', {
+const _dir = new URL('.', import.meta.url).href;
+await defineComponentFromFiles('contact-page', `${_dir}contact.html`, `${_dir}contact.css`, {
   observed: ['id', 'name'],
   onMount: async (el, shadow) => {
     await loadUsedComponents(shadow);

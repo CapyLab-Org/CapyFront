@@ -5,6 +5,7 @@
 
 import { defineComponentFromFiles } from '../../core/component-loader.js';
 
-await defineComponentFromFiles('loading-spinner-component', '../components/loading-spinner/loading-spinner.html', '../components/loading-spinner/loading-spinner.css', {
+const _dir = new URL('.', import.meta.url).href;
+await defineComponentFromFiles('loading-spinner-component', `${_dir}loading-spinner.html`, `${_dir}loading-spinner.css`, {
   observed: ['id', 'name'],
 });

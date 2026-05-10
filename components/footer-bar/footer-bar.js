@@ -5,6 +5,7 @@
 
 import { defineComponentFromFiles } from '../../core/component-loader.js';
 
-await defineComponentFromFiles('footer-bar-component', '../components/footer-bar/footer-bar.html', '../components/footer-bar/footer-bar.css', {
+const _dir = new URL('.', import.meta.url).href;
+await defineComponentFromFiles('footer-bar-component', `${_dir}footer-bar.html`, `${_dir}footer-bar.css`, {
   observed: ['id', 'name'],
 });
