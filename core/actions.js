@@ -3,7 +3,6 @@
  * Copyright (c) 2025 CapyLab Studio
  */
 
-import { actionExample } from './actions/actionExample.js';
 import { getProducts } from '../models/response/getProducts.js';
 import { getProduct }  from '../models/response/getProduct.js';
 import { saveContact } from '../models/request/saveContact.js';
@@ -15,7 +14,6 @@ export const actions = {
   getCounterId: () => 'counter-id',
   getCartIconId: () => 'cart-icon-id',
   getProductCardId: () => 'product-card-id',
-  actionExample,
   getFooterBarId: () => 'footer-bar-id',
   getHeaderBarId: () => 'header-bar-id',
   getLoadingSpinnerId: () => 'loading-spinner-id',
