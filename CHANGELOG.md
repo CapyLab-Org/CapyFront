@@ -4,6 +4,25 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
+## [1.1.1] - 2026-05-10
+
+### 🐛 Fixed
+
+- **Portabilidad de paths en templates** — `capy-new` ahora genera paths resueltos con `import.meta.url` en lugar de paths relativos al documento (`../components/...`). Los paths anteriores funcionaban solo cuando el documento estaba servido desde `public/`; los nuevos funcionan en cualquier hosting y subpath.
+
+  ```js
+  // Antes (frágil)
+  defineComponentFromFiles('my-component', '../components/my/my.html', ...)
+
+  // Ahora (portátil)
+  const _dir = new URL('.', import.meta.url).href;
+  defineComponentFromFiles('my-component', `${_dir}my.html`, ...)
+  ```
+
+- **Assets en templates HTML** — documentado que las URLs de assets (`src`, `href`) en templates HTML se resuelven contra la URL del documento, no del template. La regla es usar `./` en lugar de `/` al inicio del path para garantizar compatibilidad con cualquier subpath de despliegue.
+
+---
+
 ## [1.1.0] - 2026-05-09
 
 ### 🎉 Added — framework
