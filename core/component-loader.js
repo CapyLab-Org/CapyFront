@@ -3,6 +3,21 @@
  * Copyright (c) 2025 CapyLab Studio
  */
 
+const HTML_ESCAPES = {
+  '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  '{': '&#123;', '}': '&#125;',
+};
+
+/**
+ * Escapa un valor para insertarlo de forma segura en HTML.
+ * También escapa llaves para que los datos no se re-interpolen como {{prop}}.
+ * @param {any} value
+ * @returns {string}
+ */
+export function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"'{}]/g, ch => HTML_ESCAPES[ch]);
+}
+
 function processTemplate(template, data) {
   // {{#each key}}...{{/each}}
   let result = template.replace(
@@ -10,12 +25,12 @@ function processTemplate(template, data) {
     (_, key, inner) => {
       const arr = Array.isArray(data[key]) ? data[key] : [];
       return arr.map(item =>
-        inner.replace(/\{\{(\w+)\}\}/g, (__, prop) => item[prop] ?? '')
+        inner.replace(/\{\{(\w+)\}\}/g, (__, prop) => escapeHTML(item?.[prop]))
       ).join('');
     }
   );
   // {{key}}
-  return result.replace(/\{\{(\w+)\}\}/g, (_, key) => data[key] ?? '');
+  return result.replace(/\{\{(\w+)\}\}/g, (_, key) => escapeHTML(data[key]));
 }
 
 /**
