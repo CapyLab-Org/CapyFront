@@ -37,7 +37,7 @@ models/
 tests/
   tests.html           → runner visual; carga todos los *.test.js como módulos ES
 
-AI_CONTEXT.md          → guía compacta para usar CapyFront con asistentes de IA
+AGENTS.md              → contexto para agentes de IA (convención AGENTS.md)
 ```
 
 ---

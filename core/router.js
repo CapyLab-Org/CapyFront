@@ -57,9 +57,10 @@ export function initRouter(routeMap) {
 
     try {
       await loadFn();
-      const tag = `${name}-page`;
-      const attrs = Object.entries(params).map(([k, v]) => `${k}="${v}"`).join(' ');
-      app.innerHTML = `<${tag} ${attrs}></${tag}>`;
+      // createElement + setAttribute: los params vienen del hash y no deben interpretarse como HTML
+      const page = document.createElement(`${name}-page`);
+      for (const [k, v] of Object.entries(params)) page.setAttribute(k, v);
+      app.replaceChildren(page);
     } catch (err) {
       console.error('Error al cargar la ruta:', err);
       app.innerHTML = `<p>Error al cargar la página.</p>`;

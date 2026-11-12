@@ -1,4 +1,4 @@
-# CapyFront — AI Context
+# CapyFront — AGENTS.md
 
 Zero-dependency vanilla JS micro-framework for SPAs. Native Web Components + Shadow DOM, hash-based router, reactive global store, localStorage helpers, and a CLI generator. No npm, no bundler, no build step.
 
@@ -134,10 +134,11 @@ const blob = await apiRequest('/api/files/1', { responseType: 'blob' });
 1. **Never create component/page files manually** — always use `capy-new`
 2. **No npm, no build** — ES6 modules run directly in the browser
 3. **Asset paths** in HTML templates: `./assets/file.png` (relative `./`), never `/assets/file.png`
-4. **Event delegation** over direct listeners — direct listeners are lost on `el.render()`
-5. **Always cancel** store subscriptions in `onDisconnect`
-6. **New actions** must be imported and added to the `actions` object in `core/actions.js`
-7. **Route titles**: use `{ load, title }` object format, not a bare function
+4. **Template values are HTML-escaped** — `{{prop}}` always renders as text, so never pass HTML strings to `el.render()`; build markup in the template instead
+5. **Event delegation** over direct listeners — direct listeners are lost on `el.render()`
+6. **Always cancel** store subscriptions in `onDisconnect`
+7. **New actions** must be imported and added to the `actions` object in `core/actions.js`
+8. **Route titles**: use `{ load, title }` object format, not a bare function
 
 ---
 

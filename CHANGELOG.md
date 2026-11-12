@@ -4,6 +4,19 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
+## [Unreleased]
+
+### Seguridad
+
+- **`component-loader.js`** — los valores de `{{prop}}` y `{{#each}}` ahora se escapan como HTML (previene XSS con datos de APIs). Nuevo helper exportado `escapeHTML(value)`.
+- **`router.js`** — los parámetros de ruta se asignan con `setAttribute` en lugar de interpolarse en `innerHTML` (previene XSS vía hash).
+
+### Docs
+
+- `AI_CONTEXT.md` renombrado a `AGENTS.md` — los agentes de IA compatibles con la convención lo leen automáticamente.
+
+---
+
 ## [1.0.0] - 2026-05-10
 
 ### Core

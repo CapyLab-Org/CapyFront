@@ -125,12 +125,12 @@ await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 
 ## Usar CapyFront con un asistente de IA
 
-CapyFront incluye `AI_CONTEXT.md` — un archivo compacto diseñado para que cualquier asistente de IA entienda el framework de inmediato.
+CapyFront incluye `AGENTS.md` en la raíz — un archivo compacto que sigue la convención [AGENTS.md](https://agents.md) para que cualquier asistente de IA entienda el framework de inmediato.
 
 **Cómo usarlo:**
-1. Abrí una conversación con tu asistente (ChatGPT, Claude, Gemini, Copilot, etc.)
-2. Pegá o adjuntá el contenido de `AI_CONTEXT.md` como contexto inicial
-3. Pedile lo que necesitás — componentes, páginas, acciones, flujos completos
+- **Agentes de código** (Codex, Cursor, Copilot, Gemini CLI, Jules, Aider, etc.) leen `AGENTS.md` automáticamente al abrir el proyecto — no hace falta hacer nada.
+- **Claude Code** lee `CLAUDE.md`; creá uno con la línea `@AGENTS.md` para importarlo.
+- **Chats sin acceso al repo** (ChatGPT, Claude, Gemini web): pegá o adjuntá el contenido de `AGENTS.md` como contexto inicial.
 
 Con eso es suficiente para desarrollar. Si el asistente necesita más detalle sobre algún patrón específico, los archivos en `docs/` tienen la información extendida.
 
