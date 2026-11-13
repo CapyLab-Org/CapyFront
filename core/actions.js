@@ -3,11 +3,11 @@
  * Copyright (c) 2025 CapyLab Studio
  */
 
+// Registrá acá las funciones de models/ que quieras compartir entre componentes:
+//   import { getProducts } from '../models/response/getProducts.js';
+//   export const actions = { getProducts };
 export const actions = {
-  getFooterBarId: () => 'footer-bar-id',
-  getHeaderBarId: () => 'header-bar-id',
-  getLoadingSpinnerId: () => 'loading-spinner-id',
-};// se agregan automáticamente
+};
 
 export function runAction(name, ...args) {
   const fn = actions[name];

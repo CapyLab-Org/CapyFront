@@ -2,18 +2,23 @@
  * @license MIT
  * Copyright (c) 2025 CapyLab Studio
  */
- 
-import { actions, runAction } from '../../core/actions.js';
 
-console.log("Test: loading-spinner-component actions");
+import './loading-spinner.js';   // registra <loading-spinner-component>
 
-if (actions.getLoadingSpinnerId() !== 'loading-spinner-id') {
-  throw new Error("❌ getLoadingSpinnerId no devolvió 'loading-spinner-id'");
-}
+console.log("Test: loading-spinner-component");
 
-const result = runAction('getLoadingSpinnerId');
-if (result !== 'loading-spinner-id') {
-  throw new Error("❌ runAction('getLoadingSpinnerId') no devolvió 'loading-spinner-id'");
+const el = document.createElement('loading-spinner-component');
+document.body.appendChild(el);
+
+try {
+  if (!el.shadowRoot) {
+    throw new Error("❌ loading-spinner-component no creó su shadow root");
+  }
+  if (!el.shadowRoot.querySelector('.spinner')) {
+    throw new Error("❌ loading-spinner-component no renderizó el .spinner");
+  }
+} finally {
+  el.remove();
 }
 
 console.log("✅ Todos los tests de loading-spinner-component pasaron");

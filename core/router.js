@@ -76,6 +76,7 @@ export function initRouter(routeMap) {
       const page = document.createElement(`${name}-page`);
       for (const [k, v] of Object.entries(params)) page.setAttribute(k, v);
       app.replaceChildren(page);
+      window.scrollTo(0, 0);
     } catch (err) {
       if (current !== navId) return;
       console.error('Error al cargar la ruta:', err);

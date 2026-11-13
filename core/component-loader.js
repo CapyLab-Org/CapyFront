@@ -18,23 +18,32 @@ export function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"'{}]/g, ch => HTML_ESCAPES[ch]);
 }
 
+const EACH_RE = /\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g;
+const IF_RE   = /\{\{#if (\w+)\}\}([\s\S]*?)(?:\{\{else\}\}([\s\S]*?))?\{\{\/if\}\}/g;
+const VAR_RE  = /\{\{(\w+)\}\}/g;
+
+// Arrays vacíos cuentan como falsos para que {{#if items}} sirva de "hay elementos"
+function isTruthy(value) {
+  return Array.isArray(value) ? value.length > 0 : Boolean(value);
+}
+
+// Resuelve {{#if}} y {{prop}} contra un scope (los datos del componente o un item de {{#each}})
+function renderScope(template, scope) {
+  return template
+    .replace(IF_RE, (_, key, yes, no = '') => (isTruthy(scope?.[key]) ? yes : no))
+    .replace(VAR_RE, (_, key) => escapeHTML(scope?.[key]));
+}
+
 /**
- * Procesa {{prop}} y {{#each key}}...{{/each}} escapando cada valor.
- * Exportada para tests; uso interno de render().
+ * Procesa {{prop}}, {{#each key}}...{{/each}} y {{#if key}}...{{else}}...{{/if}}
+ * escapando cada valor. Exportada para tests; uso interno de render().
  */
 export function processTemplate(template, data) {
-  // {{#each key}}...{{/each}}
-  let result = template.replace(
-    /\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g,
-    (_, key, inner) => {
-      const arr = Array.isArray(data[key]) ? data[key] : [];
-      return arr.map(item =>
-        inner.replace(/\{\{(\w+)\}\}/g, (__, prop) => escapeHTML(item?.[prop]))
-      ).join('');
-    }
-  );
-  // {{key}}
-  return result.replace(/\{\{(\w+)\}\}/g, (_, key) => escapeHTML(data[key]));
+  const withLists = template.replace(EACH_RE, (_, key, inner) => {
+    const arr = Array.isArray(data[key]) ? data[key] : [];
+    return arr.map(item => renderScope(inner, item)).join('');
+  });
+  return renderScope(withLists, data);
 }
 
 /**
@@ -135,9 +144,12 @@ export async function defineComponentFromFiles(name, htmlPath, cssPath = null, o
     }
 
     disconnectedCallback() {
-      if (typeof options.onDisconnect === 'function') {
-        options.onDisconnect(this, this._shadow);
-      }
+      if (typeof options.onDisconnect !== 'function') return;
+      // Mover el elemento en el DOM dispara disconnect + connect en el mismo tick:
+      // se difiere la limpieza y se omite si el elemento ya volvió a estar conectado.
+      queueMicrotask(() => {
+        if (!this.isConnected) options.onDisconnect(this, this._shadow);
+      });
     }
   }
 

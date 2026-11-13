@@ -2,18 +2,24 @@
  * @license MIT
  * Copyright (c) 2025 CapyLab Studio
  */
- 
-import { actions, runAction } from '../../core/actions.js';
 
-console.log("Test: header-bar-component actions");
+import './header-bar.js';   // registra <header-bar-component>
 
-if (actions.getHeaderBarId() !== 'header-bar-id') {
-  throw new Error("❌ getHeaderBarId no devolvió 'header-bar-id'");
-}
+console.log("Test: header-bar-component");
 
-const result = runAction('getHeaderBarId');
-if (result !== 'header-bar-id') {
-  throw new Error("❌ runAction('getHeaderBarId') no devolvió 'header-bar-id'");
+const el = document.createElement('header-bar-component');
+document.body.appendChild(el);
+
+try {
+  if (!el.shadowRoot) {
+    throw new Error("❌ header-bar-component no creó su shadow root");
+  }
+  const links = [...el.shadowRoot.querySelectorAll('nav a')].map(a => a.getAttribute('href'));
+  if (!links.includes('#about') || !links.includes('#contact')) {
+    throw new Error("❌ header-bar-component no renderizó los links de navegación");
+  }
+} finally {
+  el.remove();
 }
 
 console.log("✅ Todos los tests de header-bar-component pasaron");

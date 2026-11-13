@@ -2,18 +2,23 @@
  * @license MIT
  * Copyright (c) 2025 CapyLab Studio
  */
- 
-import { actions, runAction } from '../../core/actions.js';
 
-console.log("Test: footer-bar-component actions");
+import './footer-bar.js';   // registra <footer-bar-component>
 
-if (actions.getFooterBarId() !== 'footer-bar-id') {
-  throw new Error("❌ getFooterBarId no devolvió 'footer-bar-id'");
-}
+console.log("Test: footer-bar-component");
 
-const result = runAction('getFooterBarId');
-if (result !== 'footer-bar-id') {
-  throw new Error("❌ runAction('getFooterBarId') no devolvió 'footer-bar-id'");
+const el = document.createElement('footer-bar-component');
+document.body.appendChild(el);
+
+try {
+  if (!el.shadowRoot) {
+    throw new Error("❌ footer-bar-component no creó su shadow root");
+  }
+  if (!el.shadowRoot.querySelector('a[href*="github.com"]')) {
+    throw new Error("❌ footer-bar-component no renderizó el link a GitHub");
+  }
+} finally {
+  el.remove();
 }
 
 console.log("✅ Todos los tests de footer-bar-component pasaron");
