@@ -31,7 +31,7 @@ tools/linux/capy-new -d --component my-name  # delete + unregister
 tools\windows\capy-new.exe --component my-name
 ```
 
-`capy-new` generates all files and auto-registers in `components.js`, `router.js`, `actions.js`, and `tests/tests.html`.
+`capy-new` generates all files and auto-registers in `components.js`, `router.js` and `tests/tests.html`. Names: lowercase + hyphens (`product-card`).
 
 ---
 
@@ -60,8 +60,13 @@ defineComponentFromFiles('my-name-component', `${_dir}my-name.html`, `${_dir}my-
 <!-- components/my-name/my-name.html -->
 <div class="my-name">
   <p>{{title}}</p>
-  <ul>{{#each items}}<li>{{name}} — ${{price}}</li>{{/each}}</ul>
+  {{#if items}}
+    <ul>{{#each items}}<li>{{name}}{{#if sale}} 🔥{{/if}} — ${{price}}</li>{{/each}}</ul>
+  {{else}}
+    <p>Sin productos</p>
+  {{/if}}
 </div>
+<!-- {{#if}}: JS truthiness, empty arrays are false, {{else}} optional, nestable -->
 ```
 
 ---
@@ -125,6 +130,8 @@ setAuthToken('my-jwt');                                           // auto-applie
 const data = await apiRequest('/api/users');
 await apiRequest('/api/users', { method: 'POST', body: { name: 'Capy' } });
 const blob = await apiRequest('/api/files/1', { responseType: 'blob' });
+await apiRequest('/api/upload', { method: 'POST', body: formData });   // FormData/Blob sent as-is
+// 204 → null · HTTP errors throw Error with err.status and err.body (parsed backend response)
 ```
 
 ---
@@ -139,6 +146,7 @@ const blob = await apiRequest('/api/files/1', { responseType: 'blob' });
 6. **Always cancel** store subscriptions in `onDisconnect`
 7. **New actions** must be imported and added to the `actions` object in `core/actions.js`
 8. **Route titles**: use `{ load, title }` object format, not a bare function
+9. **Declarative events**: `<my-comp data-on-click='myAction(42, "x")'>` calls `actions.myAction(42, "x")` — use `data-on-*`, never `onclick` (args are parsed as JSON)
 
 ---
 

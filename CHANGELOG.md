@@ -6,28 +6,58 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ## [Unreleased]
 
+> Actualizar desde 1.0.0 es recomendable: incluye fixes de seguridad (XSS) y de bugs del core. Revisá **Cambios incompatibles** antes de actualizar.
+
 ### Seguridad
 
 - **`component-loader.js`** — los valores de `{{prop}}` y `{{#each}}` ahora se escapan como HTML (previene XSS con datos de APIs). Nuevo helper exportado `escapeHTML(value)`.
 - **`router.js`** — los parámetros de ruta se asignan con `setAttribute` en lugar de interpolarse en `innerHTML` (previene XSS vía hash).
+- **`capy-new`** — valida el nombre (minúsculas, números y guiones). Antes `capy-new -d -c ..` podía borrar la raíz del proyecto, y `capy-new -c ../x` escribía fuera de él. Además, ya no pisa un componente o página existente.
+
+### Nuevo
+
+- **Condicionales en templates** — `{{#if key}}…{{else}}…{{/if}}`, anidables y también dentro de `{{#each}}`. Los arrays vacíos cuentan como falsos.
+- **`data-on-<evento>="accion(args)"`** — conecta un evento del componente con una acción de `core/actions.js` (los argumentos se parsean como JSON).
+- **`apiRequest`** — soporte para `FormData`, `Blob`, `string` y `URLSearchParams` como body; los errores HTTP exponen `err.status` y `err.body`.
 
 ### Fixes
 
-- **`component-loader.js`** — los atributos de evento declarativos pasan de `on<evento>` a `data-on-<evento>="accion(args)"`. Con `on*` el navegador también evaluaba el atributo como JS global y lanzaba `ReferenceError` en cada evento.
-- **`api.js`** — `Content-Type: application/json` solo se envía con body objeto/array; `FormData`, `Blob`, `string` y `URLSearchParams` se envían tal cual (antes `FormData` se serializaba como `"{}"`). Respuestas vacías (`204`) devuelven `null`. Los errores HTTP exponen `err.status` y `err.body`.
-- **`router.js`** — una navegación lenta ya no pisa a una más reciente; los parámetros se decodifican (`%20` → espacio); las rutas estáticas con `/` usan el primer segmento como nombre de página; las rutas inexistentes avisan por consola antes de caer en `home`.
+- **`api.js`** — `Content-Type: application/json` solo se envía con body objeto/array (antes `FormData` se serializaba como `"{}"` y los GET disparaban un preflight CORS innecesario). Respuestas vacías (`204`) devuelven `null`.
+- **`router.js`**
+  - Una navegación lenta ya no pisa a una más reciente.
+  - Los parámetros se decodifican (`%20` → espacio).
+  - Las rutas estáticas con `/` usan el primer segmento como nombre de página.
+  - Las rutas inexistentes avisan por consola antes de caer en `home`.
+  - Scroll al inicio al cambiar de página.
+- **`component-loader.js`** — mover un componente dentro del DOM ya no ejecuta `onDisconnect` (antes perdía sus suscripciones).
 - **`store.js`** — un listener que lanza error ya no impide notificar al resto.
+- **`capy-new`**
+  - Las páginas se registran con el formato `{ load, title }` y la clave entre comillas (antes los nombres con guion generaban un `router.js` inválido).
+  - Los templates esperan la definición del componente (`await`).
+  - La página generada muestra su título.
+  - La clase CSS del componente generado coincide con la de su HTML.
+- **`capyfront-server`** — sirve el favicon desde `assets/`.
 - **`pages/home`** — el texto `{{declarativas}}` se interpretaba como variable y se renderizaba vacío.
 - **`pages/contact`** — el submit usa event delegation y sobrevive a `el.render()`.
+- **`index.html`** — solo carga `core/main.js`, que importa el resto del núcleo.
 - **`tests/tests.html`** — los logs se insertan como texto, no como HTML.
+
+### Cambios incompatibles
+
+- Los atributos `on<evento>="accion()"` en componentes ya no se procesan: usá `data-on-<evento>`. Con `on*` el navegador también evaluaba el atributo como JS global y lanzaba `ReferenceError` en cada evento.
+- `capy-new` ya no registra la acción placeholder `get<Nombre>Id` en `actions.js`; el test generado monta el componente real. Las acciones placeholder de los componentes incluidos se eliminaron.
+- Los ejemplos de `models/` se reorganizaron: `getExample` (GET) pasó a `models/response/`.
 
 ### Tests
 
-- Nuevos tests del core en `tests/core/`: template, router, store, storage y api.
+- Nuevos tests del core en `tests/core/`: template, component (ciclo de vida y `data-on-*`), router, store, storage, actions y api.
+- Los tests de componentes montan el componente y verifican su render.
 
 ### Docs
 
 - `AI_CONTEXT.md` renombrado a `AGENTS.md` — los agentes de IA compatibles con la convención lo leen automáticamente.
+- Documentados `{{#if}}`, `data-on-*`, la subida de archivos y el manejo de errores de `apiRequest`.
+- `docs/architecture.md` y `docs/examples.md` actualizados (lógica de API en `models/`, rutas en formato `{ load, title }`).
 
 ---
 

@@ -49,6 +49,12 @@ const mixed = processTemplate(
   { users: [{ name: 'a', admin: true }, { name: 'b' }] }
 );
 if (mixed !== '<li>a ★</li><li>b</li>') throw new Error("❌ {{#if}} dentro de {{#each}} falló: " + mixed);
+const nested = '{{#if a}}{{#if b}}AB{{else}}A{{/if}}{{else}}{{#if b}}B{{else}}-{{/if}}{{/if}}';
+const cases = [[{ a: 1, b: 1 }, 'AB'], [{ a: 1 }, 'A'], [{ b: 1 }, 'B'], [{}, '-']];
+for (const [data, expected] of cases) {
+  const out = processTemplate(nested, data);
+  if (out !== expected) throw new Error(`❌ {{#if}} anidado con ${JSON.stringify(data)} dio '${out}'`);
+}
 if (processTemplate('{{#if a}}1{{/if}}-{{#if b}}2{{/if}}', { a: 1, b: 1 }) !== '1-2') {
   throw new Error("❌ varios {{#if}} consecutivos fallaron");
 }

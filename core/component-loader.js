@@ -19,7 +19,9 @@ export function escapeHTML(value) {
 }
 
 const EACH_RE = /\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g;
-const IF_RE   = /\{\{#if (\w+)\}\}([\s\S]*?)(?:\{\{else\}\}([\s\S]*?))?\{\{\/if\}\}/g;
+// Solo matchea bloques {{#if}} que no contienen otro {{#if}}: se resuelven de adentro hacia afuera
+const IF_BODY = '((?:(?!\\{\\{#if )[\\s\\S])*?)';
+const IF_RE   = new RegExp(`\\{\\{#if (\\w+)\\}\\}${IF_BODY}(?:\\{\\{else\\}\\}${IF_BODY})?\\{\\{\\/if\\}\\}`, 'g');
 const VAR_RE  = /\{\{(\w+)\}\}/g;
 
 // Arrays vacíos cuentan como falsos para que {{#if items}} sirva de "hay elementos"
@@ -29,9 +31,13 @@ function isTruthy(value) {
 
 // Resuelve {{#if}} y {{prop}} contra un scope (los datos del componente o un item de {{#each}})
 function renderScope(template, scope) {
-  return template
-    .replace(IF_RE, (_, key, yes, no = '') => (isTruthy(scope?.[key]) ? yes : no))
-    .replace(VAR_RE, (_, key) => escapeHTML(scope?.[key]));
+  let result = template;
+  let prev;
+  do {
+    prev = result;
+    result = result.replace(IF_RE, (_, key, yes, no = '') => (isTruthy(scope?.[key]) ? yes : no));
+  } while (result !== prev);
+  return result.replace(VAR_RE, (_, key) => escapeHTML(scope?.[key]));
 }
 
 /**

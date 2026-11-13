@@ -56,6 +56,24 @@ el.render({ products: data });
 // el template tiene acceso a title y products
 ```
 
+### Condicionales — `{{#if}}`
+
+```html
+{{#if loading}}
+  <p>Cargando...</p>
+{{else}}
+  {{#if products}}
+    <ul>{{#each products}}<li>{{name}}{{#if offer}} 🔥{{/if}}</li>{{/each}}</ul>
+  {{/if}}
+{{/if}}
+```
+
+- Usa la *truthiness* de JS; los arrays vacíos cuentan como falsos (`{{#if items}}` = "hay elementos").
+- `{{else}}` es opcional.
+- Dentro de `{{#each}}` evalúa las propiedades de cada item.
+- Se pueden anidar (`{{#if a}}{{#if b}}…{{/if}}{{else}}…{{/if}}`).
+- Los atributos HTML llegan como string: `active="false"` es verdadero. Para flags usá `el.render({ active: false })`.
+
 ---
 
 ## `onDisconnect` — limpieza al desmontar
@@ -76,6 +94,8 @@ defineComponentFromFiles('live-feed-component', '...html', '...css', {
 ```
 
 Sin `onDisconnect`, los `subscribe` y los `setInterval` seguirían corriendo en segundo plano.
+
+Mover el componente dentro del DOM (por ejemplo, reordenar una lista con `appendChild`) **no** ejecuta `onDisconnect`: solo corre cuando el elemento queda fuera del documento.
 
 ---
 

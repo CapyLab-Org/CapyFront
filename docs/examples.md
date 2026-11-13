@@ -72,6 +72,17 @@ defineComponentFromFiles('counter-component', '...html', '...css', {
 
 ## 4. Formulario
 
+```html
+<!-- contact-form.html -->
+<form>
+  <input id="name" placeholder="Nombre" />
+  <input id="email" type="email" placeholder="Email" />
+  {{#if error}}<p class="error">{{error}}</p>{{/if}}
+  {{#if success}}<p class="ok">¡Enviado!</p>{{/if}}
+  <button type="submit">Enviar</button>
+</form>
+```
+
 ```js
 defineComponentFromFiles('contact-form-component', '...html', '...css', {
   onMount: (el, shadow, props) => {
@@ -140,7 +151,7 @@ shadow.addEventListener('add-to-cart', (e) => {
 
 ```js
 // core/router.js
-'producto/:id': () => import('../pages/producto/producto.js'),
+'producto/:id': { load: () => import('../pages/producto/producto.js'), title: 'Producto' },
 ```
 
 ```js
@@ -176,7 +187,7 @@ if (saved.length) window.store.setState('cart', saved);
 
 ```js
 // Al hacer login
-import { setAuthToken } from '../../core/api.js';
+import { apiRequest, setAuthToken } from '../../core/api.js';
 import { save } from '../../core/storage.js';
 
 async function login(email, password) {
