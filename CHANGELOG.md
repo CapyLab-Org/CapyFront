@@ -4,7 +4,7 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 
 ---
 
-## [Unreleased]
+## [1.1.0] - 2026-11-13
 
 > Actualizar desde 1.0.0 es recomendable: incluye fixes de seguridad (XSS) y de bugs del core. Revisá **Cambios incompatibles** antes de actualizar.
 

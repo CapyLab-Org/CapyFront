@@ -159,7 +159,7 @@ Con eso es suficiente para desarrollar. Si el asistente necesita más detalle so
 
 ## Versión y cambios
 
-v1.0.0 — ver [CHANGELOG.md](./CHANGELOG.md)
+v1.1.0 — ver [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 
