@@ -112,6 +112,13 @@
 <!-- cada test generado por capy-new se agrega en TESTS abajo -->
 <script type="module">
 const TESTS = [
+  { name: 'template',        group: 'Core',        path: '../tests/core/template.test.js' },
+  { name: 'component',       group: 'Core',        path: '../tests/core/component.test.js' },
+  { name: 'router',          group: 'Core',        path: '../tests/core/router.test.js' },
+  { name: 'store',           group: 'Core',        path: '../tests/core/store.test.js' },
+  { name: 'storage',         group: 'Core',        path: '../tests/core/storage.test.js' },
+  { name: 'actions',         group: 'Core',        path: '../tests/core/actions.test.js' },
+  { name: 'api',             group: 'Core',        path: '../tests/core/api.test.js' },
   { name: 'store.js',        group: 'Core',        path: '../core/store.test.js' },
   { name: 'storage.js',      group: 'Core',        path: '../core/storage.test.js' },
   { name: 'getProducts',     group: 'Modelos',     path: '../models/response/getProducts.test.js' },
@@ -146,10 +153,11 @@ for (let i = 0; i < TESTS.length; i++) {
   card.innerHTML = `
     <div class="card-header">
       <span class="status" id="s${i}"><span class="spinner">⏳</span></span>
-      <span class="card-name">${t.name}</span>
+      <span class="card-name"></span>
     </div>
     <div class="card-log empty" id="l${i}"></div>
   `;
+  card.querySelector('.card-name').textContent = t.name;
   container.appendChild(card);
 }
 
@@ -179,11 +187,13 @@ for (let i = 0; i < TESTS.length; i++) {
 
   if (lines.length) {
     logEl.classList.remove('empty');
-    logEl.innerHTML = lines.map(l =>
-      l.startsWith('\x00')
-        ? `<span class="log-error">${l.slice(1)}</span>`
-        : `<span>${l}</span>`
-    ).join('\n');
+    lines.forEach((l, j) => {
+      const span = document.createElement('span');
+      if (l.startsWith('\x00')) { span.className = 'log-error'; l = l.slice(1); }
+      span.textContent = l;
+      if (j) logEl.append('\n');
+      logEl.append(span);
+    });
   }
 }
 

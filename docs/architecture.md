@@ -22,10 +22,10 @@ core/
   storage.js           → helpers para localStorage y sessionStorage
 
 components/<nombre>/
-  <nombre>.html        → template (soporta {{prop}} y {{#each items}})
+  <nombre>.html        → template (soporta {{prop}}, {{#each items}} y {{#if key}})
   <nombre>.css         → estilos con scope Shadow DOM
   <nombre>.js          → defineComponentFromFiles(...)
-  <nombre>.test.js     → test unitario
+  <nombre>.test.js     → test que monta el componente y verifica su render
 
 pages/<nombre>/
   <nombre>.html / .css / .js   → igual que componente, sin test
@@ -36,6 +36,7 @@ models/
 
 tests/
   tests.html           → runner visual; carga todos los *.test.js como módulos ES
+  core/                → tests del núcleo (template, router, store, storage, api…)
 
 AGENTS.md              → contexto para agentes de IA (convención AGENTS.md)
 ```
@@ -77,6 +78,6 @@ Persistido  →  import { save, load } from 'core/storage.js'
 |------|-------|
 | Estado local del componente | Variable en `onMount` |
 | Estado compartido entre componentes | `core/store.js` |
-| Llamada a API reutilizable | `core/actions/` → registrada en `actions.js` |
-| Llamada a API específica de una página | `onMount` de la página directamente |
+| Llamada a API | Función en `models/` (request o response) |
+| Lógica compartida entre componentes | Función en `models/` registrada en `core/actions.js` |
 | Persistencia entre sesiones | `core/storage.js` |

@@ -9,7 +9,10 @@ const _listeners = Object.create(null);
 export function setState(key, value) {
   _state[key] = value;
   if (_listeners[key]) {
-    for (const fn of _listeners[key]) fn(value, key);
+    for (const fn of _listeners[key]) {
+      // un listener que falla no debe impedir que se notifique al resto
+      try { fn(value, key); } catch (err) { console.error(`store: error en listener de '${key}':`, err); }
+    }
   }
 }
 

@@ -56,6 +56,24 @@ el.render({ products: data });
 // el template tiene acceso a title y products
 ```
 
+### Condicionales — `{{#if}}`
+
+```html
+{{#if loading}}
+  <p>Cargando...</p>
+{{else}}
+  {{#if products}}
+    <ul>{{#each products}}<li>{{name}}{{#if offer}} 🔥{{/if}}</li>{{/each}}</ul>
+  {{/if}}
+{{/if}}
+```
+
+- Usa la *truthiness* de JS; los arrays vacíos cuentan como falsos (`{{#if items}}` = "hay elementos").
+- `{{else}}` es opcional.
+- Dentro de `{{#each}}` evalúa las propiedades de cada item.
+- Se pueden anidar (`{{#if a}}{{#if b}}…{{/if}}{{else}}…{{/if}}`).
+- Los atributos HTML llegan como string: `active="false"` es verdadero. Para flags usá `el.render({ active: false })`.
+
 ---
 
 ## `onDisconnect` — limpieza al desmontar
@@ -76,6 +94,8 @@ defineComponentFromFiles('live-feed-component', '...html', '...css', {
 ```
 
 Sin `onDisconnect`, los `subscribe` y los `setInterval` seguirían corriendo en segundo plano.
+
+Mover el componente dentro del DOM (por ejemplo, reordenar una lista con `appendChild`) **no** ejecuta `onDisconnect`: solo corre cuando el elemento queda fuera del documento.
 
 ---
 
@@ -116,11 +136,9 @@ list.addEventListener('add-to-cart', (e) => {
 ```js
 // core/router.js
 export const routes = {
-  home:           () => import('../pages/home/home.js'),
-  'producto/:id': () => import('../pages/producto/producto.js'),
-
-  // Con título de pestaña
-  about: { load: () => import('../pages/about/about.js'), title: 'Sobre nosotros' },
+  home:           { load: () => import('../pages/home/home.js'),         title: 'Inicio' },
+  'producto/:id': { load: () => import('../pages/producto/producto.js'), title: 'Producto' },
+  about:          { load: () => import('../pages/about/about.js'),       title: 'Sobre nosotros' },
 };
 ```
 
@@ -131,6 +149,10 @@ URL: #producto/42
 → <producto-page id="42">
 → onMount recibe props.id === '42'
 ```
+
+- Los parámetros llegan decodificados: `#buscar/hola%20mundo` → `props.q === 'hola mundo'`.
+- El tag de la página es siempre el primer segmento de la ruta: `producto/:id` → `<producto-page>`.
+- Una ruta no registrada muestra `home` y deja un aviso en la consola.
 
 ```js
 // pages/producto/producto.js
@@ -188,6 +210,17 @@ shadow.addEventListener('click', (e) => {
 // ❌ Se pierde tras el próximo render
 shadow.querySelector('.btn-delete').addEventListener('click', ...);
 ```
+
+### Atributos `data-on-<evento>`
+
+Alternativa declarativa para conectar un evento del componente con una acción registrada en `core/actions.js`. El listener se pone sobre el elemento host, así que sobrevive a `el.render()`:
+
+```html
+<card-component data-on-click='addToCart(42, "promo")'></card-component>
+<!-- al hacer click → actions.addToCart(42, "promo") -->
+```
+
+Los argumentos se parsean como JSON: los strings van con comillas dobles, así que el atributo se escribe entre comillas simples. Se usa `data-on-*` y no `onclick`, porque el navegador evalúa `onclick` como JS global.
 
 ---
 

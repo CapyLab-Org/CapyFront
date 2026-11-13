@@ -7,11 +7,11 @@ Micro-framework SPA en HTML, CSS y JS puro. Sin dependencias, sin bundler, sin b
 ## Características
 
 - Componentes con **Web Components + Shadow DOM** nativos
-- **Props declarativas** `{{prop}}` e **iteración** `{{#each items}}`
+- **Props declarativas** `{{prop}}`, **iteración** `{{#each items}}` y **condicionales** `{{#if key}}…{{else}}…{{/if}}`
 - **Re-render reactivo** — `el.render(data)` actualiza el template
 - **Estado global** reactivo (`store.js`) y **persistencia** local (`storage.js`)
 - **Router hash-based** con rutas con parámetros (`#producto/42`)
-- **API client** con auth token automático y soporte `json | text | blob`
+- **API client** con auth token automático, subida de archivos (`FormData`) y soporte `json | text | blob`
 - **Eventos** entre componentes con `emit` (atraviesa Shadow DOM)
 - Generador CLI (`capy-new`) — crea y borra componentes/páginas con un comando
 - Servidor local sin dependencias (`capyfront-server`) con live reload, logger, proxy y detección de IP de red
@@ -54,7 +54,7 @@ capy-new -d -p <nombre>  # alias: -delete
 capy-new.exe -c <nombre>
 ```
 
-Cada componente/página generado incluye `.html`, `.css`, `.js` y (en componentes) `.test.js`, registrados automáticamente en `components.js` / `router.js` / `actions.js` / `tests/tests.html`.
+Cada componente/página generado incluye `.html`, `.css`, `.js` y (en componentes) un `.test.js` que lo monta y verifica su render, registrados automáticamente en `components.js` / `router.js` / `tests/tests.html`. Los nombres van en minúsculas con guiones (`product-card`).
 
 ---
 
@@ -159,7 +159,7 @@ Con eso es suficiente para desarrollar. Si el asistente necesita más detalle so
 
 ## Versión y cambios
 
-v1.0.0 — ver [CHANGELOG.md](./CHANGELOG.md)
+v1.1.0 — ver [CHANGELOG.md](./CHANGELOG.md)
 
 ---
 

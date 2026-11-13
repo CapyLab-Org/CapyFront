@@ -18,19 +18,38 @@ export function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"'{}]/g, ch => HTML_ESCAPES[ch]);
 }
 
-function processTemplate(template, data) {
-  // {{#each key}}...{{/each}}
-  let result = template.replace(
-    /\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g,
-    (_, key, inner) => {
-      const arr = Array.isArray(data[key]) ? data[key] : [];
-      return arr.map(item =>
-        inner.replace(/\{\{(\w+)\}\}/g, (__, prop) => escapeHTML(item?.[prop]))
-      ).join('');
-    }
-  );
-  // {{key}}
-  return result.replace(/\{\{(\w+)\}\}/g, (_, key) => escapeHTML(data[key]));
+const EACH_RE = /\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g;
+// Solo matchea bloques {{#if}} que no contienen otro {{#if}}: se resuelven de adentro hacia afuera
+const IF_BODY = '((?:(?!\\{\\{#if )[\\s\\S])*?)';
+const IF_RE   = new RegExp(`\\{\\{#if (\\w+)\\}\\}${IF_BODY}(?:\\{\\{else\\}\\}${IF_BODY})?\\{\\{\\/if\\}\\}`, 'g');
+const VAR_RE  = /\{\{(\w+)\}\}/g;
+
+// Arrays vacíos cuentan como falsos para que {{#if items}} sirva de "hay elementos"
+function isTruthy(value) {
+  return Array.isArray(value) ? value.length > 0 : Boolean(value);
+}
+
+// Resuelve {{#if}} y {{prop}} contra un scope (los datos del componente o un item de {{#each}})
+function renderScope(template, scope) {
+  let result = template;
+  let prev;
+  do {
+    prev = result;
+    result = result.replace(IF_RE, (_, key, yes, no = '') => (isTruthy(scope?.[key]) ? yes : no));
+  } while (result !== prev);
+  return result.replace(VAR_RE, (_, key) => escapeHTML(scope?.[key]));
+}
+
+/**
+ * Procesa {{prop}}, {{#each key}}...{{/each}} y {{#if key}}...{{else}}...{{/if}}
+ * escapando cada valor. Exportada para tests; uso interno de render().
+ */
+export function processTemplate(template, data) {
+  const withLists = template.replace(EACH_RE, (_, key, inner) => {
+    const arr = Array.isArray(data[key]) ? data[key] : [];
+    return arr.map(item => renderScope(inner, item)).join('');
+  });
+  return renderScope(withLists, data);
 }
 
 /**
@@ -86,10 +105,11 @@ export async function defineComponentFromFiles(name, htmlPath, cssPath = null, o
         this._data[attr.name] = attr.value;
       }
 
-      // on* attribute → event listeners (attached to element, sobreviven re-renders)
+      // data-on-<evento>="accion(args)" → listener sobre el elemento (sobrevive re-renders).
+      // Se usa data-on-* y no on* porque el navegador evalúa on* como JS global.
       for (const attr of this.attributes) {
-        if (!attr.name.startsWith('on')) continue;
-        const eventName = attr.name.slice(2).toLowerCase();
+        if (!attr.name.startsWith('data-on-')) continue;
+        const eventName = attr.name.slice('data-on-'.length);
         const match = attr.value.trim().match(/^(\w+)\((.*)\)$/);
         if (!match) continue;
         const fnName = match[1];
@@ -130,9 +150,12 @@ export async function defineComponentFromFiles(name, htmlPath, cssPath = null, o
     }
 
     disconnectedCallback() {
-      if (typeof options.onDisconnect === 'function') {
-        options.onDisconnect(this, this._shadow);
-      }
+      if (typeof options.onDisconnect !== 'function') return;
+      // Mover el elemento en el DOM dispara disconnect + connect en el mismo tick:
+      // se difiere la limpieza y se omite si el elemento ya volvió a estar conectado.
+      queueMicrotask(() => {
+        if (!this.isConnected) options.onDisconnect(this, this._shadow);
+      });
     }
   }
 
