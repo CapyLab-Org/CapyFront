@@ -11,6 +11,7 @@ export const actions = {
   getProducts,
   getProduct,
   saveContact,
+  resetCounter: () => window.store.setState('counterValue', 0),
   getCounterId: () => 'counter-id',
   getCartIconId: () => 'cart-icon-id',
   getProductCardId: () => 'product-card-id',

@@ -10,20 +10,23 @@
 <section class="cart-section">
   <h1>Tu carrito 🛒</h1>
 
-  <ul class="item-list">
-    {{#each items}}
-      <li class="item">
-        <span class="item-emoji">{{emoji}}</span>
-        <span class="item-name">{{name}}</span>
-        <span class="item-price">${{price}}</span>
-        <button class="btn-remove" data-id="{{id}}">✕</button>
-      </li>
-    {{/each}}
-  </ul>
-
-  <p class="empty-msg">{{emptyMsg}}</p>
-  <p class="total">Total: <strong>${{total}}</strong></p>
-  <button class="btn-clear">Vaciar carrito</button>
+  <!-- {{#if}} con array: un carrito vacío cuenta como falso -->
+  {{#if items}}
+    <ul class="item-list">
+      {{#each items}}
+        <li class="item">
+          <span class="item-emoji">{{emoji}}</span>
+          <span class="item-name">{{name}}</span>
+          <span class="item-price">${{price}}</span>
+          <button class="btn-remove" data-id="{{id}}">✕</button>
+        </li>
+      {{/each}}
+    </ul>
+    <p class="total">Total: <strong>${{total}}</strong></p>
+    <button class="btn-clear">Vaciar carrito</button>
+  {{else}}
+    <p class="empty-msg">Tu carrito está vacío. <a href="#home">Ver productos</a></p>
+  {{/if}}
 </section>
 
 <footer-bar-component></footer-bar-component>

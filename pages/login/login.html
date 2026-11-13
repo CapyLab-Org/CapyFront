@@ -18,11 +18,11 @@
     <label>Contraseña
       <input type="password" id="password" placeholder="••••••••" />
     </label>
-    <p class="error-msg">{{error}}</p>
+    {{#if error}}<p class="error-msg">{{error}}</p>{{/if}}
     <button type="submit">Entrar</button>
   </form>
 
-  <div class="success-msg">{{successMsg}}</div>
+  {{#if successMsg}}<div class="success-msg">{{successMsg}}</div>{{/if}}
 
   <div class="info-box">
     <strong>Qué hace este demo:</strong>

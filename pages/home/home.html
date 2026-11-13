@@ -29,7 +29,8 @@
 <section class="demo">
   <h2>Demo: contador con re-render</h2>
   <p>Cada clic llama a <code>el.render()</code> — los event listeners sobreviven gracias a event delegation.</p>
-  <counter-component></counter-component>
+  <p><strong>Doble clic</strong> en el contador lo reinicia: <code>data-on-dblclick='resetCounter()'</code> llama a <code>actions.resetCounter()</code> sin escribir JS en la página.</p>
+  <counter-component data-on-dblclick='resetCounter()'></counter-component>
 </section>
 
 <footer-bar-component></footer-bar-component>

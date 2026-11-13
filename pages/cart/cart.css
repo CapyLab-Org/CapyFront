@@ -91,6 +91,12 @@ h1 {
   margin: 24px 0;
 }
 
+.empty-msg a {
+  color: #2d7d46;
+  font-style: normal;
+  font-weight: 600;
+}
+
 .total {
   text-align: right;
   font-size: 1.2rem;

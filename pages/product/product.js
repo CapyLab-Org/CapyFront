@@ -15,7 +15,7 @@ defineComponentFromFiles('product-page', `${_dir}product.html`, `${_dir}product.
 
     const item = await actions.getProduct(props.id);
     if (!item) {
-      el.render({ name: 'Producto no encontrado', desc: '', price: '', stock: '0', emoji: '❓' });
+      el.render({ notFound: true });
       return;
     }
 
@@ -26,12 +26,8 @@ defineComponentFromFiles('product-page', `${_dir}product.html`, `${_dir}product.
 
     const updateDisplay = () => {
       const currentStock = getStock();
-      el.render({ ...item, stock: String(currentStock) });
-      const btn = shadow.querySelector('.btn-add');
-      if (btn) {
-        btn.disabled = currentStock <= 0;
-        btn.textContent = currentStock <= 0 ? 'Sin stock' : 'Agregar al carrito';
-      }
+      // inStock es booleano: un string como "0" sería verdadero en {{#if}}
+      el.render({ ...item, found: true, stock: currentStock, inStock: currentStock > 0 });
     };
 
     updateDisplay();

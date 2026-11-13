@@ -9,12 +9,8 @@ const _dir = new URL('.', import.meta.url).href;
 defineComponentFromFiles('product-card-component', `${_dir}product-card.html`, `${_dir}product-card.css`, {
   observed: ['id', 'name', 'price', 'emoji', 'stock'],
   onMount: (el, shadow, props) => {
-    const stock = parseInt(props.stock) || 0;
-    const btn = shadow.querySelector('.btn-add');
-    if (btn && stock <= 0) {
-      btn.disabled = true;
-      btn.textContent = 'Sin stock';
-    }
+    // props.stock llega como string ("0" es verdadero): se pasa un booleano al template
+    el.render({ inStock: (parseInt(props.stock) || 0) > 0 });
 
     // event delegation — sobrevive a cada el.render() del padre
     shadow.addEventListener('click', (e) => {

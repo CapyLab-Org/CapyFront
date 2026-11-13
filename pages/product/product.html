@@ -8,13 +8,29 @@
   <cart-icon-component></cart-icon-component>
 </nav>
 
+<!-- {{#if}} anidado: producto encontrado / no encontrado / cargando -->
 <section class="detail">
-  <div class="emoji">{{emoji}}</div>
-  <h1>{{name}}</h1>
-  <p class="desc">{{desc}}</p>
-  <p class="price">${{price}}</p>
-  <p class="stock">Stock disponible: {{stock}} unidades</p>
-  <button class="btn-add">Agregar al carrito</button>
+  {{#if found}}
+    <div class="emoji">{{emoji}}</div>
+    <h1>{{name}}</h1>
+    <p class="desc">{{desc}}</p>
+    <p class="price">${{price}}</p>
+    {{#if inStock}}
+      <p class="stock">Stock disponible: {{stock}} unidades</p>
+      <button class="btn-add">Agregar al carrito</button>
+    {{else}}
+      <p class="stock">Sin stock por ahora</p>
+      <button class="btn-add" disabled>Sin stock</button>
+    {{/if}}
+  {{else}}
+    {{#if notFound}}
+      <div class="emoji">❓</div>
+      <h1>Producto no encontrado</h1>
+      <p class="desc">No existe un producto con id "{{id}}".</p>
+    {{else}}
+      <p class="desc">Cargando producto…</p>
+    {{/if}}
+  {{/if}}
 </section>
 
 <footer-bar-component></footer-bar-component>

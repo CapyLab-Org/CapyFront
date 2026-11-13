@@ -11,8 +11,8 @@ function calcTotal(items) {
 }
 
 function renderCart(el, items) {
-  const emptyMsg = items.length === 0 ? 'Tu carrito está vacío.' : '';
-  el.render({ items, total: calcTotal(items), emptyMsg });
+  // el template decide qué mostrar con {{#if items}}...{{else}}...{{/if}}
+  el.render({ items, total: calcTotal(items) });
 }
 
 const _dir = new URL('.', import.meta.url).href;

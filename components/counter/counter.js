@@ -9,6 +9,8 @@ const _dir = new URL('.', import.meta.url).href;
 defineComponentFromFiles('counter-component', `${_dir}counter.html`, `${_dir}counter.css`, {
   onMount: (el, shadow, props) => {
     el.render({ count: window.store.getState('counterValue') ?? 0 });
+    // refleja cambios hechos desde afuera (ej: actions.resetCounter vía data-on-dblclick)
+    el._unsub = window.store.subscribe('counterValue', count => el.render({ count }));
 
     // event delegation — sobrevive a cada el.render()
     shadow.addEventListener('click', (e) => {
@@ -23,5 +25,7 @@ defineComponentFromFiles('counter-component', `${_dir}counter.html`, `${_dir}cou
       }
     });
   },
-  onDisconnect: (el) => {}
+  onDisconnect: (el) => {
+    if (el._unsub) el._unsub();
+  }
 });

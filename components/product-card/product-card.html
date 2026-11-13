@@ -8,6 +8,10 @@
   <p class="stock">Stock: {{stock}}</p>
   <div class="actions">
     <a class="btn-detail" href="#product/{{id}}">Ver detalle</a>
-    <button class="btn-add">+ Agregar</button>
+    {{#if inStock}}
+      <button class="btn-add">+ Agregar</button>
+    {{else}}
+      <button class="btn-add" disabled>Sin stock</button>
+    {{/if}}
   </div>
 </div>
