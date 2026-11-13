@@ -11,15 +11,14 @@ await defineComponentFromFiles('contact-page', `${_dir}contact.html`, `${_dir}co
   observed: ['id', 'name'],
   onMount: async (el, shadow) => {
     await loadUsedComponents(shadow);
-    const form = shadow.querySelector('#contact-form');
-    if (form) {
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = shadow.querySelector('#contact-name').value.trim();
-        const message = shadow.querySelector('#contact-message').value.trim();
-        if (!name || !message) return;
-        console.log('Formulario enviado:', { name, message });
-      });
-    }
+    // delegación sobre el shadow root: sobrevive a el.render()
+    shadow.addEventListener('submit', (e) => {
+      if (!e.target.matches('#contact-form')) return;
+      e.preventDefault();
+      const name = shadow.querySelector('#contact-name').value.trim();
+      const message = shadow.querySelector('#contact-message').value.trim();
+      if (!name || !message) return;
+      console.log('Formulario enviado:', { name, message });
+    });
   }
 });

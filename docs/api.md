@@ -26,9 +26,16 @@ const file  = await apiRequest('/api/files/1',  { responseType: 'blob' });
 const data = await apiRequest('/api/data', {
   headers: { 'X-Custom': 'valor' }
 });
+
+// Subida de archivos — FormData, Blob, string y URLSearchParams se envían tal cual
+const form = new FormData();
+form.append('avatar', fileInput.files[0]);
+await apiRequest('/api/upload', { method: 'POST', body: form });
 ```
 
-`apiRequest` lanza un error si `res.ok === false`. Usar `try/catch` en los modelos.
+- `Content-Type: application/json` solo se agrega cuando `body` es un objeto o array.
+- Respuestas vacías (`204 No Content`) devuelven `null`.
+- Si `res.ok === false` lanza un `Error` con `err.status` y `err.body` (la respuesta del backend ya parseada). Usar `try/catch` en los modelos.
 
 ---
 

@@ -18,7 +18,11 @@ export function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"'{}]/g, ch => HTML_ESCAPES[ch]);
 }
 
-function processTemplate(template, data) {
+/**
+ * Procesa {{prop}} y {{#each key}}...{{/each}} escapando cada valor.
+ * Exportada para tests; uso interno de render().
+ */
+export function processTemplate(template, data) {
   // {{#each key}}...{{/each}}
   let result = template.replace(
     /\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g,
@@ -86,10 +90,11 @@ export async function defineComponentFromFiles(name, htmlPath, cssPath = null, o
         this._data[attr.name] = attr.value;
       }
 
-      // on* attribute → event listeners (attached to element, sobreviven re-renders)
+      // data-on-<evento>="accion(args)" → listener sobre el elemento (sobrevive re-renders).
+      // Se usa data-on-* y no on* porque el navegador evalúa on* como JS global.
       for (const attr of this.attributes) {
-        if (!attr.name.startsWith('on')) continue;
-        const eventName = attr.name.slice(2).toLowerCase();
+        if (!attr.name.startsWith('data-on-')) continue;
+        const eventName = attr.name.slice('data-on-'.length);
         const match = attr.value.trim().match(/^(\w+)\((.*)\)$/);
         if (!match) continue;
         const fnName = match[1];

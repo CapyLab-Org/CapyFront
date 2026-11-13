@@ -11,6 +11,20 @@ Todas las versiones de **CapyFront** siguen [Semantic Versioning](https://semver
 - **`component-loader.js`** — los valores de `{{prop}}` y `{{#each}}` ahora se escapan como HTML (previene XSS con datos de APIs). Nuevo helper exportado `escapeHTML(value)`.
 - **`router.js`** — los parámetros de ruta se asignan con `setAttribute` en lugar de interpolarse en `innerHTML` (previene XSS vía hash).
 
+### Fixes
+
+- **`component-loader.js`** — los atributos de evento declarativos pasan de `on<evento>` a `data-on-<evento>="accion(args)"`. Con `on*` el navegador también evaluaba el atributo como JS global y lanzaba `ReferenceError` en cada evento.
+- **`api.js`** — `Content-Type: application/json` solo se envía con body objeto/array; `FormData`, `Blob`, `string` y `URLSearchParams` se envían tal cual (antes `FormData` se serializaba como `"{}"`). Respuestas vacías (`204`) devuelven `null`. Los errores HTTP exponen `err.status` y `err.body`.
+- **`router.js`** — una navegación lenta ya no pisa a una más reciente; los parámetros se decodifican (`%20` → espacio); las rutas estáticas con `/` usan el primer segmento como nombre de página; las rutas inexistentes avisan por consola antes de caer en `home`.
+- **`store.js`** — un listener que lanza error ya no impide notificar al resto.
+- **`pages/home`** — el texto `{{declarativas}}` se interpretaba como variable y se renderizaba vacío.
+- **`pages/contact`** — el submit usa event delegation y sobrevive a `el.render()`.
+- **`tests/tests.html`** — los logs se insertan como texto, no como HTML.
+
+### Tests
+
+- Nuevos tests del core en `tests/core/`: template, router, store, storage y api.
+
 ### Docs
 
 - `AI_CONTEXT.md` renombrado a `AGENTS.md` — los agentes de IA compatibles con la convención lo leen automáticamente.
